@@ -1,0 +1,117 @@
+# Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
+
+[worldserver]
+
+###############################################################################
+# MODULE SETTINGS
+#
+#    MountRequirements.Enable
+#       Description: Enables the module. If disabled, original values are restored.
+#       Default:     true  - Enabled
+#
+#   MountRequirements.DEBUG
+#       Description: Enables additional logging for debugging purposes
+#       Default:     false - Disabled
+###############################################################################
+
+MountRequirements.Enable = true
+MountRequirements.DEBUG  = false
+
+###############################################################################
+# RIDING SKILL REQUIREMENTS SETTINGS
+#
+#   MountRequirements.Riding.<SkillLevel>.BuyPrice
+#       Description: Cost in copper to learn the skill
+#
+#   MountRequirements.Riding.<SkillLevel>.RequiredLevel
+#       Description: Character level required
+#
+###############################################################################
+
+# default: 40000
+MountRequirements.Riding.Apprentice.BuyPrice = 40000
+# default: 20
+MountRequirements.Riding.Apprentice.RequiredLevel = 20
+
+# default: 500000
+MountRequirements.Riding.Journeyman.BuyPrice = 500000
+# default: 40
+MountRequirements.Riding.Journeyman.RequiredLevel = 40
+
+# default: 2500000
+MountRequirements.Riding.Expert.BuyPrice = 2500000
+# default: 60
+MountRequirements.Riding.Expert.RequiredLevel = 60
+
+# default: 50000000
+MountRequirements.Riding.Artisan.BuyPrice = 50000000
+# default: 70
+MountRequirements.Riding.Artisan.RequiredLevel = 70
+
+# default: 10000000
+MountRequirements.Riding.ColdWeatherFlying.BuyPrice = 10000000
+# default: 77
+MountRequirements.Riding.ColdWeatherFlying.RequiredLevel = 77
+
+###############################################################################
+# TOME OF COLD WEATHER FLIGHT REQUIREMENTS SETTINGS
+#
+#   MountRequirements.Riding.TomeOfColdWeatherFlight.BuyPrice
+#       Description: Cost in copper to buy from vendor
+#       Default: 10000000
+#
+#   MountRequirements.Riding.TomeOfColdWeatherFlight.SellPrice
+#       Description: Value in copper from selling
+#       Default: 0
+#
+#   MountRequirements.Riding.TomeOfColdWeatherFlight.RequiredLevel
+#       Description: Character level required to use the item
+#       Default: 68
+#
+###############################################################################
+
+MountRequirements.Riding.TomeOfColdWeatherFlight.BuyPrice        = 10000000
+MountRequirements.Riding.TomeOfColdWeatherFlight.SellPrice        = 0
+MountRequirements.Riding.TomeOfColdWeatherFlight.RequiredLevel   = 68
+
+###############################################################################
+# MOUNT REQUIREMENTS SETTINGS
+#
+#   MountRequirements.Mount.<Type>.<SkillLevel>.BuyPrice
+#       Description: Cost in copper to buy from vendor
+#
+#   MountRequirements.Mount.<Type>.<SkillLevel>.SellPrice
+#       Description: Value in copper from selling
+#
+#   MountRequirements.Mount.<Type>.<SkillLevel>.RequiredLevel
+#       Description: Character level required to learn the mount
+#
+###############################################################################
+
+# default: 10000
+MountRequirements.Mount.Racial.Apprentice.BuyPrice = 10000
+# default: 2500
+MountRequirements.Mount.Racial.Apprentice.SellPrice = 2500
+# default: 20
+MountRequirements.Mount.Racial.Apprentice.RequiredLevel = 20
+
+# default: 100000
+MountRequirements.Mount.Racial.Journeyman.BuyPrice = 100000
+# default: 25000
+MountRequirements.Mount.Racial.Journeyman.SellPrice = 25000
+# default: 40
+MountRequirements.Mount.Racial.Journeyman.RequiredLevel = 40
+
+# default: 500000
+MountRequirements.Mount.Faction.Expert.BuyPrice = 500000
+# default: 125000
+MountRequirements.Mount.Faction.Expert.SellPrice = 125000
+# default: 60
+MountRequirements.Mount.Faction.Expert.RequiredLevel = 60
+
+# default: 1000000
+MountRequirements.Mount.Faction.Artisan.BuyPrice = 1000000
+# default: 250000
+MountRequirements.Mount.Faction.Artisan.SellPrice = 250000
+# default: 70
+MountRequirements.Mount.Faction.Artisan.RequiredLevel = 70
