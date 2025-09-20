@@ -61,6 +61,10 @@ class MountRequirements
         uint32 ApprenticeWarlockClassMountsRequiredLevel;
         uint32 JourneymanWarlockClassMountsBuyPrice;
         uint32 JourneymanWarlockClassMountsRequiredLevel;
+        uint32 ExpertDruidClassMountsBuyPrice;
+        uint32 ExpertDruidClassMountsRequiredLevel;
+        uint32 ArtisanDruidClassMountsBuyPrice;
+        uint32 ArtisanDruidClassMountsRequiredLevel;
         // std::vector<MountBackup> MountBackups;
         MountRequirements();
 

@@ -48,7 +48,11 @@ MountRequirements::MountRequirements() :
     ApprenticeWarlockClassMountsBuyPrice(10000),
     ApprenticeWarlockClassMountsRequiredLevel(20),
     JourneymanWarlockClassMountsBuyPrice(100000),
-    JourneymanWarlockClassMountsRequiredLevel(40)
+    JourneymanWarlockClassMountsRequiredLevel(40),
+    ExpertDruidClassMountsBuyPrice(34000),
+    ExpertDruidClassMountsRequiredLevel(60),
+    ArtisanDruidClassMountsBuyPrice(200000),
+    ArtisanDruidClassMountsRequiredLevel(71)
 {
 }
 
@@ -92,6 +96,8 @@ void MountRequirements::ApplyCustomMountRequirements()
     trans->Append(BuildSpellUpdateQuery(JourneymanPaladinClassMountsIDs, JourneymanPaladinClassMountsBuyPrice,  JourneymanPaladinClassMountsRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ApprenticeWarlockClassMountsIDs, ApprenticeWarlockClassMountsBuyPrice,  ApprenticeWarlockClassMountsRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(JourneymanWarlockClassMountsIDs, JourneymanWarlockClassMountsBuyPrice,  JourneymanWarlockClassMountsRequiredLevel));
+    trans->Append(BuildSpellUpdateQuery(ExpertDruidClassMountsIDs, ExpertDruidClassMountsBuyPrice,  ExpertDruidClassMountsRequiredLevel));
+    trans->Append(BuildSpellUpdateQuery(ArtisanDruidClassMountsIDs, ArtisanDruidClassMountsBuyPrice,  ArtisanDruidClassMountsRequiredLevel));
 
     try 
     {
@@ -133,6 +139,8 @@ void MountRequirements::RestoreOriginalMountRequirements()
     trans->Append(BuildSpellUpdateQuery(JourneymanPaladinClassMountsIDs, OriginalJourneymanPaladinClassMountsBuyPrice,  OriginalJourneymanPaladinClassMountsRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ApprenticeWarlockClassMountsIDs, OriginalApprenticeWarlockClassMountsBuyPrice,  OriginalApprenticeWarlockClassMountsRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(JourneymanWarlockClassMountsIDs, OriginalJourneymanWarlockClassMountsBuyPrice,  OriginalJourneymanWarlockClassMountsRequiredLevel));
+    trans->Append(BuildSpellUpdateQuery(ExpertDruidClassMountsIDs, OriginalExpertDruidClassMountsBuyPrice,  OriginalExpertDruidClassMountsRequiredLevel));
+    trans->Append(BuildSpellUpdateQuery(ArtisanDruidClassMountsIDs, OriginalArtisanDruidClassMountsBuyPrice,  OriginalArtisanDruidClassMountsRequiredLevel));
 
     try
     {
@@ -191,6 +199,10 @@ void MountRequirements::InitializeConfiguration()
     ApprenticeWarlockClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.WarlockClass.Apprentice.RequiredLevel", 20);
     JourneymanWarlockClassMountsBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.WarlockClass.Journeyman.BuyPrice", 20000);
     JourneymanWarlockClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.WarlockClass.Journeyman.RequiredLevel", 40);
+    ExpertDruidClassMountsBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.DruidClass.Expert.BuyPrice", 34000);
+    ExpertDruidClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.DruidClass.Expert.RequiredLevel", 60);
+    ArtisanDruidClassMountsBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.DruidClass.Artisan.BuyPrice", 200000);
+    ArtisanDruidClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.DruidClass.Artisan.RequiredLevel", 71);
 
     // Tome of Cold Weather Flight
     TomeOfColdWeatherFlightBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Riding.TomeOfColdWeatherFlight.BuyPrice", 10000000);
@@ -231,6 +243,10 @@ void MountRequirements::InitializeConfiguration()
     if (ApprenticeWarlockClassMountsRequiredLevel < 1) ApprenticeWarlockClassMountsRequiredLevel = 1;
     if (JourneymanWarlockClassMountsBuyPrice < 0)      JourneymanWarlockClassMountsBuyPrice = 0;
     if (JourneymanWarlockClassMountsRequiredLevel < 1) JourneymanWarlockClassMountsRequiredLevel = 1;
+    if (ExpertDruidClassMountsBuyPrice < 0)      ExpertDruidClassMountsBuyPrice = 0;
+    if (ExpertDruidClassMountsRequiredLevel < 1) ExpertDruidClassMountsRequiredLevel = 1;
+    if (ArtisanDruidClassMountsBuyPrice < 0)      ArtisanDruidClassMountsBuyPrice = 0;
+    if (ArtisanDruidClassMountsRequiredLevel < 1) ArtisanDruidClassMountsRequiredLevel = 1;
 
     if (debug_Out) 
     {
@@ -259,12 +275,17 @@ void MountRequirements::InitializeConfiguration()
         LOG_INFO("module", "---");
         LOG_INFO("module", "MountRequirements: Apprentice Paladin Class Mounts buy price:  {}", ApprenticePaladinClassMountsBuyPrice);
         LOG_INFO("module", "MountRequirements: Journeyman Paladin Class Mounts buy price:  {}", JourneymanPaladinClassMountsBuyPrice);
-        LOG_INFO("module", "MountRequirements: Apprentice Paladin Class Mounts required level: {}", JourneymanPaladinClassMountsRequiredLevel);
+        LOG_INFO("module", "MountRequirements: Apprentice Paladin Class Mounts required level: {}", ApprenticePaladinClassMountsRequiredLevel);
         LOG_INFO("module", "MountRequirements: Journeyman Paladin Class Mounts required level: {}", JourneymanPaladinClassMountsRequiredLevel);
         LOG_INFO("module", "MountRequirements: Apprentice Warlock Class Mounts buy price:  {}", ApprenticeWarlockClassMountsBuyPrice);
         LOG_INFO("module", "MountRequirements: Journeyman Warlock Class Mounts buy price:  {}", JourneymanWarlockClassMountsBuyPrice);
-        LOG_INFO("module", "MountRequirements: Apprentice Warlock Class Mounts required level: {}", JourneymanWarlockClassMountsRequiredLevel);
+        LOG_INFO("module", "MountRequirements: Apprentice Warlock Class Mounts required level: {}", ApprenticeWarlockClassMountsRequiredLevel);
         LOG_INFO("module", "MountRequirements: Journeyman Warlock Class Mounts required level: {}", JourneymanWarlockClassMountsRequiredLevel);
+        LOG_INFO("module", "MountRequirements: Expert  Druid Class Mounts buy price:  {}", ExpertDruidClassMountsBuyPrice);
+        LOG_INFO("module", "MountRequirements: Artisan Druid Class Mounts buy price:  {}", ArtisanDruidClassMountsBuyPrice);
+        LOG_INFO("module", "MountRequirements: Expert  Druid Class Mounts required level: {}", ExpertDruidClassMountsRequiredLevel);
+        LOG_INFO("module", "MountRequirements: Artisan Druid Class Mounts required level: {}", ArtisanDruidClassMountsRequiredLevel);
+        LOG_INFO("module", "    ");
     }    
 }
 

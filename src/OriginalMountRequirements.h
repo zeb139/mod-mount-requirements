@@ -79,4 +79,12 @@ static const std::vector<uint32> JourneymanWarlockClassMountsIDs = {23161};
 const uint32 OriginalJourneymanWarlockClassMountsBuyPrice = 100000;
 const uint32 OriginalJourneymanWarlockClassMountsRequiredLevel = 40;
 
+static const std::vector<uint32> ExpertDruidClassMountsIDs = {33950};
+const uint32 OriginalExpertDruidClassMountsBuyPrice = 34000;
+const uint32 OriginalExpertDruidClassMountsRequiredLevel = 60;
+
+static const std::vector<uint32> ArtisanDruidClassMountsIDs = {40120};
+const uint32 OriginalArtisanDruidClassMountsBuyPrice = 200000;
+const uint32 OriginalArtisanDruidClassMountsRequiredLevel = 71;
+
 #endif

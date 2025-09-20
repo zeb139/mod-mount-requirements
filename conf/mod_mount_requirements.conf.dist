@@ -127,14 +127,32 @@ MountRequirements.Mount.Faction.Artisan.RequiredLevel = 70
 #
 ###############################################################################
 
+# default: 3500
 MountRequirements.Mount.PaladinClass.Apprentice.BuyPrice = 3500
+# default: 20
 MountRequirements.Mount.PaladinClass.Apprentice.RequiredLevel = 20
 
+# default: 20000
 MountRequirements.Mount.PaladinClass.Journeyman.BuyPrice = 20000
+# default: 40
 MountRequirements.Mount.PaladinClass.Journeyman.RequiredLevel = 40
 
+# default: 10000
 MountRequirements.Mount.WarlockClass.Apprentice.BuyPrice = 10000
+# default: 20
 MountRequirements.Mount.WarlockClass.Apprentice.RequiredLevel = 20
 
+# default: 100000
 MountRequirements.Mount.WarlockClass.Journeyman.BuyPrice = 100000
+# default: 40
 MountRequirements.Mount.WarlockClass.Journeyman.RequiredLevel = 40
+
+# default: 34000
+MountRequirements.Mount.DruidClass.Expert.BuyPrice = 34000
+# default: 60
+MountRequirements.Mount.DruidClass.Expert.RequiredLevel = 60
+
+# default: 200000
+MountRequirements.Mount.DruidClass.Artisan.BuyPrice = 200000
+# default: 71
+MountRequirements.Mount.DruidClass.Artisan.RequiredLevel = 71
