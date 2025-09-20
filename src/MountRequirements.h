@@ -32,6 +32,10 @@ class MountRequirements
         uint32 ColdWeatherFlyingSkillBuyPrice;
         uint32 ColdWeatherFlyingSkillRequiredLevel;
 
+        uint32 TomeOfColdWeatherFlightBuyPrice;
+        uint32 TomeOfColdWeatherFlightSellPrice;
+        uint32 TomeOfColdWeatherFlightRequiredLevel;
+
         // Mounts
         uint32 ApprenticeRacialMountsBuyPrice;
         uint32 ApprenticeRacialMountsSellPrice;
@@ -49,10 +53,14 @@ class MountRequirements
         uint32 ArtisanFactionMountsSellPrice;
         uint32 ArtisanFactionMountsRequiredLevel;
 
-        uint32 TomeOfColdWeatherFlightBuyPrice;
-        uint32 TomeOfColdWeatherFlightSellPrice;
-        uint32 TomeOfColdWeatherFlightRequiredLevel;
-    
+        uint32 ApprenticePaladinClassMountsBuyPrice;
+        uint32 ApprenticePaladinClassMountsRequiredLevel;
+        uint32 JourneymanPaladinClassMountsBuyPrice;
+        uint32 JourneymanPaladinClassMountsRequiredLevel;
+        uint32 ApprenticeWarlockClassMountsBuyPrice;
+        uint32 ApprenticeWarlockClassMountsRequiredLevel;
+        uint32 JourneymanWarlockClassMountsBuyPrice;
+        uint32 JourneymanWarlockClassMountsRequiredLevel;
         // std::vector<MountBackup> MountBackups;
         MountRequirements();
 
@@ -70,6 +78,8 @@ class MountRequirements
         void RestoreOriginalMountRequirements();
 
         std::string BuildItemUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 sell, const uint32 level);
+        std::string BuildItemUpdateQuery(const uint32 id, const uint32 buy, const uint32 sell, const uint32 level);
+        std::string BuildSpellUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 level);
         std::string BuildSpellUpdateQuery(const uint32 id, const uint32 buy, const uint32 level);
         std::string VectorToCSV(const std::vector<uint32>& v);
 };

@@ -41,7 +41,7 @@ const uint32 OriginalTomeOfColdWeatherFlightBuyPrice = 10000000;
 const uint32 OriginalTomeOfColdWeatherFlightSellPrice = 0;
 const uint32 OriginalTomeOfColdWeatherFlightRequiredLevel = 68;
 
-// Mounts Requirements
+// "Standard" Mounts Requirements
 static const std::vector<uint32> ApprenticeRacialMountsIDs = {1132,2411,2414,5655,5656,5665,5668,5864,5872,5873,8563,8588,8591,8592,8595,8629,8631,8632,12325,12326,12327,13321,13322,13323,13324,13331,13332,13333,15277,15290,28481,28927,29220,29221,29222,29743,29744,46099,46100,46308,47100};
 const uint32 OriginalApprenticeRacialMountsBuyPrice = 10000;
 const uint32 OriginalApprenticeRacialMountsSellPrice = 2500;
@@ -61,5 +61,22 @@ static const std::vector<uint32> ArtisanFactionMountsIDs = {25473,25477,25527,25
 const uint32 OriginalArtisanFactionMountsBuyPrice = 1000000;
 const uint32 OriginalArtisanFactionMountsSellPrice = 250000;
 const uint32 OriginalArtisanFactionMountsRequiredLevel = 70;
+
+// Class Mounts Requirements
+static const std::vector<uint32> ApprenticePaladinClassMountsIDs = {13820,34768};
+const uint32 OriginalApprenticePaladinClassMountsBuyPrice = 3500;
+const uint32 OriginalApprenticePaladinClassMountsRequiredLevel = 20;
+
+static const std::vector<uint32> JourneymanPaladinClassMountsIDs = {23214,34767};
+const uint32 OriginalJourneymanPaladinClassMountsBuyPrice = 20000;
+const uint32 OriginalJourneymanPaladinClassMountsRequiredLevel = 40;
+
+static const std::vector<uint32> ApprenticeWarlockClassMountsIDs = {1710};
+const uint32 OriginalApprenticeWarlockClassMountsBuyPrice = 10000;
+const uint32 OriginalApprenticeWarlockClassMountsRequiredLevel = 20;
+
+static const std::vector<uint32> JourneymanWarlockClassMountsIDs = {23161};
+const uint32 OriginalJourneymanWarlockClassMountsBuyPrice = 100000;
+const uint32 OriginalJourneymanWarlockClassMountsRequiredLevel = 40;
 
 #endif

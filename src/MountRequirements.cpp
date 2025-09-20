@@ -24,6 +24,9 @@ MountRequirements::MountRequirements() :
     ArtisanRidingSkillRequiredLevel(70),
     ColdWeatherFlyingSkillBuyPrice(10000000),
     ColdWeatherFlyingSkillRequiredLevel(77),
+    TomeOfColdWeatherFlightBuyPrice(10000000),
+    TomeOfColdWeatherFlightSellPrice(0),
+    TomeOfColdWeatherFlightRequiredLevel(68),
 
     ApprenticeRacialMountsBuyPrice(10000),
     ApprenticeRacialMountsSellPrice(2500),
@@ -38,9 +41,14 @@ MountRequirements::MountRequirements() :
     ArtisanFactionMountsSellPrice(250000),
     ArtisanFactionMountsRequiredLevel(70),
 
-    TomeOfColdWeatherFlightBuyPrice(10000000),
-    TomeOfColdWeatherFlightSellPrice(0),
-    TomeOfColdWeatherFlightRequiredLevel(68)
+    ApprenticePaladinClassMountsBuyPrice(3500),
+    ApprenticePaladinClassMountsRequiredLevel(20),
+    JourneymanPaladinClassMountsBuyPrice(20000),
+    JourneymanPaladinClassMountsRequiredLevel(40),
+    ApprenticeWarlockClassMountsBuyPrice(10000),
+    ApprenticeWarlockClassMountsRequiredLevel(20),
+    JourneymanWarlockClassMountsBuyPrice(100000),
+    JourneymanWarlockClassMountsRequiredLevel(40)
 {
 }
 
@@ -72,13 +80,18 @@ void MountRequirements::ApplyCustomMountRequirements()
     trans->Append(BuildSpellUpdateQuery(ExpertRidingTrainerSpellID,      ExpertRidingSkillBuyPrice,      ExpertRidingSkillRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ArtisanRidingTrainerSpellID,     ArtisanRidingSkillBuyPrice,     ArtisanRidingSkillRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ColdWeatherFlyingTrainerSpellID, ColdWeatherFlyingSkillBuyPrice, ColdWeatherFlyingSkillRequiredLevel));
-    trans->Append(BuildItemUpdateQuery(std::vector<uint32>{TomeOfColdWeatherFlightItemID}, TomeOfColdWeatherFlightBuyPrice, TomeOfColdWeatherFlightSellPrice, TomeOfColdWeatherFlightRequiredLevel));
+    trans->Append(BuildItemUpdateQuery(TomeOfColdWeatherFlightItemID, TomeOfColdWeatherFlightBuyPrice, TomeOfColdWeatherFlightSellPrice, TomeOfColdWeatherFlightRequiredLevel));
 
     // Set Requirements for Mounts
     trans->Append(BuildItemUpdateQuery(ApprenticeRacialMountsIDs, ApprenticeRacialMountsBuyPrice, ApprenticeRacialMountsSellPrice, ApprenticeRacialMountsRequiredLevel));
     trans->Append(BuildItemUpdateQuery(JourneymanRacialMountsIDs, JourneymanRacialMountsBuyPrice, JourneymanRacialMountsSellPrice, JourneymanRacialMountsRequiredLevel));
     trans->Append(BuildItemUpdateQuery(ExpertFactionMountsIDs,    ExpertFactionMountsBuyPrice,    ExpertFactionMountsSellPrice,    ExpertFactionMountsRequiredLevel));
     trans->Append(BuildItemUpdateQuery(ArtisanFactionMountsIDs,   ArtisanFactionMountsBuyPrice,   ArtisanFactionMountsSellPrice,   ArtisanFactionMountsRequiredLevel));
+    
+    trans->Append(BuildSpellUpdateQuery(ApprenticePaladinClassMountsIDs, ApprenticePaladinClassMountsBuyPrice,  ApprenticePaladinClassMountsRequiredLevel));
+    trans->Append(BuildSpellUpdateQuery(JourneymanPaladinClassMountsIDs, JourneymanPaladinClassMountsBuyPrice,  JourneymanPaladinClassMountsRequiredLevel));
+    trans->Append(BuildSpellUpdateQuery(ApprenticeWarlockClassMountsIDs, ApprenticeWarlockClassMountsBuyPrice,  ApprenticeWarlockClassMountsRequiredLevel));
+    trans->Append(BuildSpellUpdateQuery(JourneymanWarlockClassMountsIDs, JourneymanWarlockClassMountsBuyPrice,  JourneymanWarlockClassMountsRequiredLevel));
 
     try 
     {
@@ -108,13 +121,18 @@ void MountRequirements::RestoreOriginalMountRequirements()
     trans->Append(BuildSpellUpdateQuery(ExpertRidingTrainerSpellID,      OriginalExpertRidingSkillBuyPrice,      OriginalExpertRidingSkillRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ArtisanRidingTrainerSpellID,     OriginalArtisanRidingSkillBuyPrice,     OriginalArtisanRidingSkillRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ColdWeatherFlyingTrainerSpellID, OriginalColdWeatherFlyingSkillBuyPrice, OriginalColdWeatherFlyingSkillRequiredLevel));
-    trans->Append(BuildItemUpdateQuery(std::vector<uint32>{TomeOfColdWeatherFlightItemID}, OriginalTomeOfColdWeatherFlightBuyPrice, OriginalTomeOfColdWeatherFlightSellPrice, OriginalTomeOfColdWeatherFlightRequiredLevel));
+    trans->Append(BuildItemUpdateQuery(TomeOfColdWeatherFlightItemID, OriginalTomeOfColdWeatherFlightBuyPrice, OriginalTomeOfColdWeatherFlightSellPrice, OriginalTomeOfColdWeatherFlightRequiredLevel));
 
     // Restore Original Requirements for Mounts
     trans->Append(BuildItemUpdateQuery(ApprenticeRacialMountsIDs, OriginalApprenticeRacialMountsBuyPrice, OriginalApprenticeRacialMountsSellPrice, OriginalApprenticeRacialMountsRequiredLevel));
     trans->Append(BuildItemUpdateQuery(JourneymanRacialMountsIDs, OriginalJourneymanRacialMountsBuyPrice, OriginalJourneymanRacialMountsSellPrice, OriginalJourneymanRacialMountsRequiredLevel));
     trans->Append(BuildItemUpdateQuery(ExpertFactionMountsIDs,    OriginalExpertFactionMountsBuyPrice,    OriginalExpertFactionMountsSellPrice,    OriginalExpertFactionMountsRequiredLevel));
     trans->Append(BuildItemUpdateQuery(ArtisanFactionMountsIDs,   OriginalArtisanFactionMountsBuyPrice,   OriginalArtisanFactionMountsSellPrice,   OriginalArtisanFactionMountsRequiredLevel));
+    
+    trans->Append(BuildSpellUpdateQuery(ApprenticePaladinClassMountsIDs, OriginalApprenticePaladinClassMountsBuyPrice,  OriginalApprenticePaladinClassMountsRequiredLevel));
+    trans->Append(BuildSpellUpdateQuery(JourneymanPaladinClassMountsIDs, OriginalJourneymanPaladinClassMountsBuyPrice,  OriginalJourneymanPaladinClassMountsRequiredLevel));
+    trans->Append(BuildSpellUpdateQuery(ApprenticeWarlockClassMountsIDs, OriginalApprenticeWarlockClassMountsBuyPrice,  OriginalApprenticeWarlockClassMountsRequiredLevel));
+    trans->Append(BuildSpellUpdateQuery(JourneymanWarlockClassMountsIDs, OriginalJourneymanWarlockClassMountsBuyPrice,  OriginalJourneymanWarlockClassMountsRequiredLevel));
 
     try
     {
@@ -165,6 +183,15 @@ void MountRequirements::InitializeConfiguration()
     ArtisanFactionMountsSellPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.Faction.Artisan.SellPrice", 250000);
     ArtisanFactionMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.Faction.Artisan.RequiredLevel", 70);
 
+    ApprenticePaladinClassMountsBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.PaladinClass.Apprentice.BuyPrice", 3500);
+    ApprenticePaladinClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.PaladinClass.Apprentice.RequiredLevel", 20);
+    JourneymanPaladinClassMountsBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.PaladinClass.Journeyman.BuyPrice", 20000);
+    JourneymanPaladinClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.PaladinClass.Journeyman.RequiredLevel", 40);
+    ApprenticeWarlockClassMountsBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.WarlockClass.Apprentice.BuyPrice", 3500);
+    ApprenticeWarlockClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.WarlockClass.Apprentice.RequiredLevel", 20);
+    JourneymanWarlockClassMountsBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.WarlockClass.Journeyman.BuyPrice", 20000);
+    JourneymanWarlockClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.WarlockClass.Journeyman.RequiredLevel", 40);
+
     // Tome of Cold Weather Flight
     TomeOfColdWeatherFlightBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Riding.TomeOfColdWeatherFlight.BuyPrice", 10000000);
     TomeOfColdWeatherFlightSellPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Riding.TomeOfColdWeatherFlight.SellPrice", 0);
@@ -196,6 +223,15 @@ void MountRequirements::InitializeConfiguration()
     if (ArtisanFactionMountsSellPrice < 0)       ArtisanFactionMountsSellPrice = 0;
     if (ArtisanFactionMountsRequiredLevel < 1)   ArtisanFactionMountsRequiredLevel = 1;
 
+    if (ApprenticePaladinClassMountsBuyPrice < 0)      ApprenticePaladinClassMountsBuyPrice = 0;
+    if (ApprenticePaladinClassMountsRequiredLevel < 1) ApprenticePaladinClassMountsRequiredLevel = 1;
+    if (JourneymanPaladinClassMountsBuyPrice < 0)      JourneymanPaladinClassMountsBuyPrice = 0;
+    if (JourneymanPaladinClassMountsRequiredLevel < 1) JourneymanPaladinClassMountsRequiredLevel = 1;
+    if (ApprenticeWarlockClassMountsBuyPrice < 0)      ApprenticeWarlockClassMountsBuyPrice = 0;
+    if (ApprenticeWarlockClassMountsRequiredLevel < 1) ApprenticeWarlockClassMountsRequiredLevel = 1;
+    if (JourneymanWarlockClassMountsBuyPrice < 0)      JourneymanWarlockClassMountsBuyPrice = 0;
+    if (JourneymanWarlockClassMountsRequiredLevel < 1) JourneymanWarlockClassMountsRequiredLevel = 1;
+
     if (debug_Out) 
     {
         LOG_INFO("module", "MountRequirements: DEBUG has been enabled!");
@@ -220,9 +256,23 @@ void MountRequirements::InitializeConfiguration()
         LOG_INFO("module", "MountRequirements: Journeyman Racial Mounts required level: {}", JourneymanRacialMountsRequiredLevel);
         LOG_INFO("module", "MountRequirements: Expert Faction Mounts    required level: {}", ExpertFactionMountsRequiredLevel);
         LOG_INFO("module", "MountRequirements: Artisan Faction Mounts   required level: {}", ArtisanFactionMountsRequiredLevel);
+        LOG_INFO("module", "---");
+        LOG_INFO("module", "MountRequirements: Apprentice Paladin Class Mounts buy price:  {}", ApprenticePaladinClassMountsBuyPrice);
+        LOG_INFO("module", "MountRequirements: Journeyman Paladin Class Mounts buy price:  {}", JourneymanPaladinClassMountsBuyPrice);
+        LOG_INFO("module", "MountRequirements: Apprentice Paladin Class Mounts required level: {}", JourneymanPaladinClassMountsRequiredLevel);
+        LOG_INFO("module", "MountRequirements: Journeyman Paladin Class Mounts required level: {}", JourneymanPaladinClassMountsRequiredLevel);
+        LOG_INFO("module", "MountRequirements: Apprentice Warlock Class Mounts buy price:  {}", ApprenticeWarlockClassMountsBuyPrice);
+        LOG_INFO("module", "MountRequirements: Journeyman Warlock Class Mounts buy price:  {}", JourneymanWarlockClassMountsBuyPrice);
+        LOG_INFO("module", "MountRequirements: Apprentice Warlock Class Mounts required level: {}", JourneymanWarlockClassMountsRequiredLevel);
+        LOG_INFO("module", "MountRequirements: Journeyman Warlock Class Mounts required level: {}", JourneymanWarlockClassMountsRequiredLevel);
     }    
 }
 
+
+std::string MountRequirements::BuildItemUpdateQuery(const uint32 id, const uint32 buy, const uint32 sell, const uint32 level)
+{
+    return MountRequirements::BuildItemUpdateQuery(std::vector<uint32>{id}, buy, sell, level);
+}
 
 std::string MountRequirements::BuildItemUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 sell, const uint32 level)
 {
@@ -237,10 +287,16 @@ std::string MountRequirements::BuildItemUpdateQuery(const std::vector<uint32> id
 
 std::string MountRequirements::BuildSpellUpdateQuery(const uint32 id, const uint32 buy, const uint32 level)
 {
+    return MountRequirements::BuildSpellUpdateQuery(std::vector<uint32>{id}, buy, level);
+}
+
+std::string MountRequirements::BuildSpellUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 level)
+{
+    std::string entriesCSV = VectorToCSV(ids);
     std::string sql = "UPDATE npc_trainer SET "
         "`MoneyCost` = "  + std::to_string(buy) + ", "
         "`ReqLevel` = " + std::to_string(level) + " "
-        "WHERE `SpellID` = " + to_string(id);
+        "WHERE `SpellID` IN (" + entriesCSV + ")";
     return sql;
 }
 

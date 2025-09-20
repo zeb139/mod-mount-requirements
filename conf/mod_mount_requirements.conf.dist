@@ -115,3 +115,26 @@ MountRequirements.Mount.Faction.Artisan.BuyPrice = 1000000
 MountRequirements.Mount.Faction.Artisan.SellPrice = 250000
 # default: 70
 MountRequirements.Mount.Faction.Artisan.RequiredLevel = 70
+
+###############################################################################
+# CLASS MOUNT REQUIREMENTS SETTINGS
+#
+#   MountRequirements.Mount.<Type>.<SkillLevel>.BuyPrice
+#       Description: Cost in copper to learn the skill
+#
+#   MountRequirements.Mount.<Type>.<SkillLevel>.RequiredLevel
+#       Description: Character level required to learn the mount
+#
+###############################################################################
+
+MountRequirements.Mount.PaladinClass.Apprentice.BuyPrice = 3500
+MountRequirements.Mount.PaladinClass.Apprentice.RequiredLevel = 20
+
+MountRequirements.Mount.PaladinClass.Journeyman.BuyPrice = 20000
+MountRequirements.Mount.PaladinClass.Journeyman.RequiredLevel = 40
+
+MountRequirements.Mount.WarlockClass.Apprentice.BuyPrice = 10000
+MountRequirements.Mount.WarlockClass.Apprentice.RequiredLevel = 20
+
+MountRequirements.Mount.WarlockClass.Journeyman.BuyPrice = 100000
+MountRequirements.Mount.WarlockClass.Journeyman.RequiredLevel = 40
