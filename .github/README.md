@@ -1,4 +1,8 @@
-[English](README.md) | [Español](README_ES.md)
+# ![logo](https://raw.githubusercontent.com/azerothcore/azerothcore.github.io/master/images/logo-github.png) AzerothCore
+
+# mod-mount-requirements
+
+[English](README.md) | [Español](README_ES.md)  
 
 ## Description
 This module provides a system for customizing mount requirements in AzerothCore.  
@@ -29,3 +33,16 @@ that it expects to find within the `acore_world.item_template` and `acore_world.
 ### To revert changes made by the module  
 1. Follow the same steps as above, but set `MountRequirements.Enable = false` in your `mod_mount_requirements.conf` file first.  
 2. The next time the server runs, all the original mount requirements will be applied to the database. (*Remember to delete your `Cache` folder*)
+  
+  
+<img src=".github/images/custom_riding_skill_reqs.png" width="400" alt="Image of custom Riding Skill requirements">   
+
+<img src=".github/images/custom_racial_mounts_reqs.png" width="400" alt="Image of custom Riding Skill requirements">   
+
+<img src=".github/images/custom_class_mounts_reqs.png" width="400" alt="Image of custom Riding Skill requirements">   
+
+## License
+This module is released under the MIT License
+
+## Credits
+- Zeb139
