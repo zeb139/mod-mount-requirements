@@ -65,7 +65,8 @@ class MountRequirements
         uint32 ExpertDruidClassMountsRequiredLevel;
         uint32 ArtisanDruidClassMountsBuyPrice;
         uint32 ArtisanDruidClassMountsRequiredLevel;
-        // std::vector<MountBackup> MountBackups;
+        
+        std::vector<MountBackup> MiscMountsData;
         MountRequirements();
 
     public:
@@ -78,16 +79,23 @@ class MountRequirements
         ~MountRequirements();
         void InitializeConfiguration();
         void UpdateMountRequirements();
+        void LoadMiscMountsData();
         void ApplyCustomMountRequirements();
         void RestoreOriginalMountRequirements();
 
         std::string BuildItemUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 sell, const uint32 level);
         std::string BuildItemUpdateQuery(const uint32 id, const uint32 buy, const uint32 sell, const uint32 level);
+        void AppendMiscMountUpdate(
+            WorldDatabaseTransaction t, const MountBackup m,
+            const uint32 apprMountBuyPrice, const uint32 apprMountSellPrice, const uint32 apprMountReqLevel,
+            const uint32 jourMountBuyPrice, const uint32 jourMountSellPrice, const uint32 jourMountReqLevel,
+            const uint32 exprMountBuyPrice, const uint32 exprMountSellPrice, const uint32 exprMountReqLevel,
+            const uint32 artiMountBuyPrice, const uint32 artiMountSellPrice, const uint32 artiMountReqLevel
+        );
         std::string BuildSpellUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 level);
         std::string BuildSpellUpdateQuery(const uint32 id, const uint32 buy, const uint32 level);
         std::string VectorToCSV(const std::vector<uint32>& v);
 };
 
 #define mountRequirements MountRequirements::instance()
-
 #endif

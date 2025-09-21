@@ -18,15 +18,10 @@ class MountRequirements_WorldScript : public WorldScript
 
     void OnAfterConfigLoad(bool /*reload*/) override
     {
-        LOG_INFO("server.loading", "Applying MountRequirements Updates...");
+        LOG_INFO("server.loading", "\nMountRequirements: Applying MountRequirements Updates...");
         mountRequirements->InitializeConfiguration();
         mountRequirements->UpdateMountRequirements();
     }
-
-    // void OnStartup() override
-    // {
-        
-    // }
 };
 
 class MountRequirements_PlayerScript : public PlayerScript

@@ -8,6 +8,7 @@
 #include "SharedDefines.h"
 #include "SpellMgr.h"
 #include "Chat.h"
+#include <sstream>
 
 using namespace std;
 
@@ -74,7 +75,7 @@ void MountRequirements::UpdateMountRequirements()
 void MountRequirements::ApplyCustomMountRequirements()
 {
     if (debug_Out)
-        LOG_INFO("module", "Starting MountRequirements Update...");
+        LOG_INFO("module", "MountRequirements: Starting MountRequirements Update...");
 
     WorldDatabaseTransaction trans = WorldDatabase.BeginTransaction();
 
@@ -99,25 +100,36 @@ void MountRequirements::ApplyCustomMountRequirements()
     trans->Append(BuildSpellUpdateQuery(ExpertDruidClassMountsIDs, ExpertDruidClassMountsBuyPrice,  ExpertDruidClassMountsRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ArtisanDruidClassMountsIDs, ArtisanDruidClassMountsBuyPrice,  ArtisanDruidClassMountsRequiredLevel));
 
+    // Set Requirements for Misc Mounts
+    for (MountBackup m : MiscMountsData) 
+    {
+        AppendMiscMountUpdate(trans, m,
+            ApprenticeRacialMountsBuyPrice, ApprenticeRacialMountsSellPrice, ApprenticeRacialMountsRequiredLevel,
+            JourneymanRacialMountsBuyPrice, JourneymanRacialMountsSellPrice, JourneymanRacialMountsRequiredLevel,
+            ExpertFactionMountsBuyPrice,    ExpertFactionMountsSellPrice,    ExpertFactionMountsRequiredLevel,
+            ArtisanFactionMountsBuyPrice,   ArtisanFactionMountsSellPrice,   ArtisanFactionMountsRequiredLevel
+        );
+    }
+
     try 
     {
         WorldDatabase.CommitTransaction(trans);
     }
     catch (const std::exception& e)
     {
-        LOG_INFO("module", "MountRequirements transaction failed: {}", e.what());
+        LOG_INFO("module", "MountRequirements: MountRequirements transaction failed: {}", e.what());
         return;
     }
 
     if (debug_Out)
-        LOG_INFO("module", "MountRequirements Update Done");
+        LOG_INFO("module", "MountRequirements: MountRequirements Update Done");
 }
 
 
 void MountRequirements::RestoreOriginalMountRequirements()
 {
     if (debug_Out)
-        LOG_INFO("module", "Restoring Original Mount Requirements...");
+        LOG_INFO("module", "MountRequirements: Restoring Original Mount Requirements...");
 
     WorldDatabaseTransaction trans = WorldDatabase.BeginTransaction();
 
@@ -142,28 +154,81 @@ void MountRequirements::RestoreOriginalMountRequirements()
     trans->Append(BuildSpellUpdateQuery(ExpertDruidClassMountsIDs, OriginalExpertDruidClassMountsBuyPrice,  OriginalExpertDruidClassMountsRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ArtisanDruidClassMountsIDs, OriginalArtisanDruidClassMountsBuyPrice,  OriginalArtisanDruidClassMountsRequiredLevel));
 
+    // Restore Original Requirements for Misc Mounts
+    for (MountBackup m : MiscMountsData)
+        trans->Append(BuildItemUpdateQuery(m.ItemID, m.BuyPrice, m.SellPrice, m.RequiredLevel));
+
     try
     {
         WorldDatabase.CommitTransaction(trans);
     }
     catch (const std::exception& e)
     {
-        LOG_INFO("module", "MountRequirements transaction failed: {}", e.what());
+        LOG_INFO("module", "MountRequirements: MountRequirements transaction failed: {}", e.what());
         return;
     }
     
     if (debug_Out)
-        LOG_INFO("module", "Original Mount Requirements Restoration Done.");
+        LOG_INFO("module", "MountRequirements: Original Mount Requirements Restoration Done.");
 }
 
+
+void MountRequirements::AppendMiscMountUpdate(
+        WorldDatabaseTransaction t, const MountBackup m,
+        const uint32 apprMountBuyPrice, const uint32 apprMountSellPrice, const uint32 apprMountReqLevel,
+        const uint32 jourMountBuyPrice, const uint32 jourMountSellPrice, const uint32 jourMountReqLevel,
+        const uint32 exprMountBuyPrice, const uint32 exprMountSellPrice, const uint32 exprMountReqLevel,
+        const uint32 artiMountBuyPrice, const uint32 artiMountSellPrice, const uint32 artiMountReqLevel
+)
+{
+    if (m.RequiredSkill == RIDING_SKILL_ID)
+    {
+        switch (m.RequiredSkillRank)
+        {
+            case APPRENTICE_RIDING_SKILL_RANK:
+                t->Append(BuildItemUpdateQuery(m.ItemID, apprMountBuyPrice, apprMountSellPrice, apprMountReqLevel));
+            case JOURNEYMAN_RIDING_SKILL_RANK:
+                t->Append(BuildItemUpdateQuery(m.ItemID, jourMountBuyPrice, jourMountSellPrice, jourMountReqLevel));
+            case EXPERT_RIDING_SKILL_RANK:
+                t->Append(BuildItemUpdateQuery(m.ItemID, exprMountBuyPrice, exprMountSellPrice, exprMountReqLevel));
+            case ARTISAN_RIDING_SKILL_RANK:
+                t->Append(BuildItemUpdateQuery(m.ItemID, artiMountBuyPrice, artiMountSellPrice, artiMountReqLevel));
+            default:
+                break;
+        }
+    }
+    else if (m.RequiredSkill == ENGINEERING_SKILL_ID)
+    {
+        if (m.RequiredSkillRank == 300)
+            t->Append(BuildItemUpdateQuery(m.ItemID, m.BuyPrice, m.SellPrice, exprMountReqLevel));
+        else if (m.RequiredSkillRank == 375)
+            t->Append(BuildItemUpdateQuery(m.ItemID, m.BuyPrice, m.SellPrice, artiMountReqLevel));
+    }
+    else if (m.RequiredSkill == TAILORING_SKILL_ID)
+    {
+        // Do nothing? Costs are determined by Recipe
+    }
+    else if (m.RequiredSkill == 0)
+    {
+        if (m.RequiredLevel == 20)
+            t->Append(BuildItemUpdateQuery(m.ItemID, apprMountBuyPrice, apprMountSellPrice, apprMountReqLevel));
+        else if (m.RequiredLevel == 40)
+            t->Append(BuildItemUpdateQuery(m.ItemID, jourMountBuyPrice, jourMountSellPrice, jourMountReqLevel));
+        else if (m.RequiredLevel == 77)
+            t->Append(BuildItemUpdateQuery(m.ItemID, exprMountBuyPrice, exprMountSellPrice, exprMountReqLevel));
+    }
+}
 
 void MountRequirements::InitializeConfiguration()
 {
     // Retrieve Config Values
     MountRequirementsEnabled = sConfigMgr->GetOption<bool>("MountRequirements.Enable", true);
+    debug_Out = sConfigMgr->GetOption<bool>("MountRequirements.DEBUG", false);
+
+    LoadMiscMountsData();
+
     if (!MountRequirementsEnabled)
         return;
-    debug_Out = sConfigMgr->GetOption<bool>("MountRequirements.DEBUG", false);
 
     // Skills
     ApprenticeRidingSkillBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Riding.Apprentice.BuyPrice", 40000);
@@ -250,7 +315,6 @@ void MountRequirements::InitializeConfiguration()
 
     if (debug_Out) 
     {
-        LOG_INFO("module", "MountRequirements: DEBUG has been enabled!");
         LOG_INFO("module", "MountRequirements: Apprentice Riding buy price:  {}", ApprenticeRidingSkillBuyPrice);
         LOG_INFO("module", "MountRequirements: Journeyman Riding buy price:  {}", JourneymanRidingSkillBuyPrice);
         LOG_INFO("module", "MountRequirements: Expert Riding     buy price:  {}", ExpertRidingSkillBuyPrice);
@@ -285,10 +349,33 @@ void MountRequirements::InitializeConfiguration()
         LOG_INFO("module", "MountRequirements: Artisan Druid Class Mounts buy price:  {}", ArtisanDruidClassMountsBuyPrice);
         LOG_INFO("module", "MountRequirements: Expert  Druid Class Mounts required level: {}", ExpertDruidClassMountsRequiredLevel);
         LOG_INFO("module", "MountRequirements: Artisan Druid Class Mounts required level: {}", ArtisanDruidClassMountsRequiredLevel);
-        LOG_INFO("module", "    ");
     }    
 }
 
+void MountRequirements::LoadMiscMountsData()
+{
+    std::istringstream mountBackupDataStream(MountBackupData);
+    std::string mountData;
+
+    while (std::getline(mountBackupDataStream, mountData))
+    {
+        if (mountData.empty())
+            continue;
+        
+        MiscMountsData.push_back(MountBackup::fromCSV(mountData));
+    }
+
+    if (debug_Out)
+    {
+        LOG_INFO("module", "\nMountRequirements: Loaded the following miscellaneous mounts:");
+        for (MountBackup m : MiscMountsData) 
+        {
+            LOG_INFO("module", "MountRequirements: ItemID: {}, BuyPrice: {}, SellPrice: {}, RequiredLevel: {}, RequiredSkill: {}, RequiredSkillRank: {}",
+            m.ItemID, m.BuyPrice, m.SellPrice, m.RequiredLevel, m.RequiredSkill, m.RequiredSkillRank);
+        }
+        LOG_INFO("module", "\n");
+    }
+}
 
 std::string MountRequirements::BuildItemUpdateQuery(const uint32 id, const uint32 buy, const uint32 sell, const uint32 level)
 {
