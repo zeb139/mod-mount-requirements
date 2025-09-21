@@ -65,6 +65,9 @@ class MountRequirements
         uint32 ExpertDruidClassMountsRequiredLevel;
         uint32 ArtisanDruidClassMountsBuyPrice;
         uint32 ArtisanDruidClassMountsRequiredLevel;
+        uint32 ExpertDeathKnightClassMountsBuyPrice;
+        uint32 ExpertDeathKnightClassMountsSellPrice;
+        uint32 ExpertDeathKnightClassMountsRequiredLevel;
         
         std::vector<MountBackup> MiscMountsData;
         MountRequirements();

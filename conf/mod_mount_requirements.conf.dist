@@ -100,6 +100,9 @@ MountRequirements.Mount.Faction.Artisan.RequiredLevel = 70
 #   MountRequirements.Mount.<Type>.<SkillLevel>.BuyPrice
 #       Description: Cost in copper to learn the skill
 #
+#   MountRequirements.Mount.<Type>.<SkillLevel>.SellPrice
+#       Description: Value in copper from selling
+#
 #   MountRequirements.Mount.<Type>.<SkillLevel>.RequiredLevel
 #       Description: Character level required to learn the mount
 #
@@ -122,3 +125,7 @@ MountRequirements.Mount.DruidClass.Expert.RequiredLevel = 60
 
 MountRequirements.Mount.DruidClass.Artisan.BuyPrice = 200000
 MountRequirements.Mount.DruidClass.Artisan.RequiredLevel = 71
+
+MountRequirements.Mount.DeathKnightClass.Expert.BuyPrice = 1000000
+MountRequirements.Mount.DeathKnightClass.Expert.SellPrice = 250000
+MountRequirements.Mount.DeathKnightClass.Expert.RequiredLevel = 70

@@ -35,8 +35,7 @@ class MountRequirements_PlayerScript : public PlayerScript
         {
             ChatHandler(player->GetSession()).PSendSysMessage("MountRequirements module is enabled.");
             std::string msg = "Note: If you see outdated tooltip data for mounts, " 
-                "or can't use them despite meeting level requirements, please delete your game's local Cache folder. "
-                "This is usually in the same directory as Wow.exe";
+                "or can't use them despite meeting level requirements, please delete your game's Cache folder.";
             ChatHandler(player->GetSession()).PSendSysMessage(msg);
         }
     }

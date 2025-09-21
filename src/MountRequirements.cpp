@@ -53,7 +53,10 @@ MountRequirements::MountRequirements() :
     ExpertDruidClassMountsBuyPrice(34000),
     ExpertDruidClassMountsRequiredLevel(60),
     ArtisanDruidClassMountsBuyPrice(200000),
-    ArtisanDruidClassMountsRequiredLevel(71)
+    ArtisanDruidClassMountsRequiredLevel(71),
+    ExpertDeathKnightClassMountsBuyPrice(1000000),
+    ExpertDeathKnightClassMountsSellPrice(250000),
+    ExpertDeathKnightClassMountsRequiredLevel(70)
 {
 }
 
@@ -99,6 +102,7 @@ void MountRequirements::ApplyCustomMountRequirements()
     trans->Append(BuildSpellUpdateQuery(JourneymanWarlockClassMountsIDs, JourneymanWarlockClassMountsBuyPrice,  JourneymanWarlockClassMountsRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ExpertDruidClassMountsIDs, ExpertDruidClassMountsBuyPrice,  ExpertDruidClassMountsRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ArtisanDruidClassMountsIDs, ArtisanDruidClassMountsBuyPrice,  ArtisanDruidClassMountsRequiredLevel));
+    trans->Append(BuildItemUpdateQuery(ExpertDeathKnightClassMountsIDs, ExpertDeathKnightClassMountsBuyPrice, ExpertDeathKnightClassMountsSellPrice, ExpertDeathKnightClassMountsRequiredLevel));
 
     // Set Requirements for Misc Mounts
     for (MountBackup m : MiscMountsData) 
@@ -153,6 +157,7 @@ void MountRequirements::RestoreOriginalMountRequirements()
     trans->Append(BuildSpellUpdateQuery(JourneymanWarlockClassMountsIDs, OriginalJourneymanWarlockClassMountsBuyPrice,  OriginalJourneymanWarlockClassMountsRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ExpertDruidClassMountsIDs, OriginalExpertDruidClassMountsBuyPrice,  OriginalExpertDruidClassMountsRequiredLevel));
     trans->Append(BuildSpellUpdateQuery(ArtisanDruidClassMountsIDs, OriginalArtisanDruidClassMountsBuyPrice,  OriginalArtisanDruidClassMountsRequiredLevel));
+    trans->Append(BuildItemUpdateQuery(ExpertDeathKnightClassMountsIDs, OriginalExpertDeathKnightClassMountsBuyPrice, OriginalExpertDeathKnightClassMountsSellPrice, OriginalExpertDeathKnightClassMountsRequiredLevel));
 
     // Restore Original Requirements for Misc Mounts
     for (MountBackup m : MiscMountsData)
@@ -268,6 +273,9 @@ void MountRequirements::InitializeConfiguration()
     ExpertDruidClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.DruidClass.Expert.RequiredLevel", 60);
     ArtisanDruidClassMountsBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.DruidClass.Artisan.BuyPrice", 200000);
     ArtisanDruidClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.DruidClass.Artisan.RequiredLevel", 71);
+    ExpertDeathKnightClassMountsBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.DeathKnightClass.Expert.BuyPrice", 1000000);
+    ExpertDeathKnightClassMountsSellPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.DeathKnightClass.Expert.SellPrice", 250000);
+    ExpertDeathKnightClassMountsRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Mount.DeathKnightClass.Expert.RequiredLevel", 70);
 
     // Tome of Cold Weather Flight
     TomeOfColdWeatherFlightBuyPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Riding.TomeOfColdWeatherFlight.BuyPrice", 10000000);
@@ -349,6 +357,9 @@ void MountRequirements::InitializeConfiguration()
         LOG_INFO("module", "MountRequirements: Artisan Druid Class Mounts buy price:  {}", ArtisanDruidClassMountsBuyPrice);
         LOG_INFO("module", "MountRequirements: Expert  Druid Class Mounts required level: {}", ExpertDruidClassMountsRequiredLevel);
         LOG_INFO("module", "MountRequirements: Artisan Druid Class Mounts required level: {}", ArtisanDruidClassMountsRequiredLevel);
+        LOG_INFO("module", "MountRequirements: Expert DeathKnight Class Mounts buy price: {}", ExpertDeathKnightClassMountsBuyPrice);
+        LOG_INFO("module", "MountRequirements: Expert DeathKnight Class Mounts sell price: {}", ExpertDeathKnightClassMountsSellPrice);
+        LOG_INFO("module", "MountRequirements: Expert DeathKnight Class Mounts required level: {}", ExpertDeathKnightClassMountsRequiredLevel);
     }    
 }
 

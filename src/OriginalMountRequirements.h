@@ -122,6 +122,11 @@ static const std::vector<uint32> ArtisanDruidClassMountsIDs = {40120};
 const uint32 OriginalArtisanDruidClassMountsBuyPrice = 200000;
 const uint32 OriginalArtisanDruidClassMountsRequiredLevel = 71;
 
+static const std::vector<uint32> ExpertDeathKnightClassMountsIDs = {40775};
+const uint32 OriginalExpertDeathKnightClassMountsBuyPrice = 1000000;
+const uint32 OriginalExpertDeathKnightClassMountsSellPrice = 250000;
+const uint32 OriginalExpertDeathKnightClassMountsRequiredLevel = 70;
+
 // Every other mount in the game from item_template
 // entry, buyprice, sellprice, requiredlevel, requiredskill, requiredskillrank
 static const char* MountBackupData = R"(
@@ -321,7 +326,6 @@ static const char* MountBackupData = R"(
 34061,0,0,70,202,375
 46747,5000000,1250000,40,762,150
 46763,5000000,1250000,40,762,150
-40775,10000000,0,60,762,225
 18245,0,0,40,762,75
 29469,0,0,40,762,150
 19029,0,0,40,762,150
