@@ -41,7 +41,7 @@ que espera encontrar en las tablas `acore_world.item_template` y `acore_world.np
 ![Image of custom Riding Skill requirements](/.github/images/custom_class_mounts_reqs.png) 
 
 ## Licencia
-Este módulo se distribuye bajo la licencia MIT.
+Este módulo se distribuye bajo la licencia GNU GPL v3.
 
 ## Créditos
 - Zeb139

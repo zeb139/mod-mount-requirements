@@ -41,7 +41,7 @@ that it expects to find within the `acore_world.item_template` and `acore_world.
 ![Image of custom Riding Skill requirements](/.github/images/custom_class_mounts_reqs.png)
 
 ## License
-This module is released under the MIT License
+This module is released under the GNU GPL v3 license.
 
 ## Credits
 - Zeb139
