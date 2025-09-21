@@ -1,3 +1,5 @@
+[English](README.md) | [Español](README_ES.md)
+
 ## Descripción
 Este módulo proporciona un sistema para personalizar los requisitos de montura en AzerothCore.  
 Te permite realizar de forma segura las siguientes acciones:

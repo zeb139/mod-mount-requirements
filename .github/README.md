@@ -1,3 +1,5 @@
+[English](README.md) | [Español](README_ES.md)
+
 ## Description
 This module provides a system for customizing mount requirements in AzerothCore.  
 It allows you to safely:
