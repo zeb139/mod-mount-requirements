@@ -320,6 +320,9 @@ void MountRequirements::InitializeConfiguration()
     if (ExpertDruidClassMountsRequiredLevel < 1) ExpertDruidClassMountsRequiredLevel = 1;
     if (ArtisanDruidClassMountsBuyPrice < 0)      ArtisanDruidClassMountsBuyPrice = 0;
     if (ArtisanDruidClassMountsRequiredLevel < 1) ArtisanDruidClassMountsRequiredLevel = 1;
+    if (ExpertDeathKnightClassMountsBuyPrice < 0)      ExpertDeathKnightClassMountsBuyPrice = 0;
+    if (ExpertDeathKnightClassMountsSellPrice < 0)     ExpertDeathKnightClassMountsSellPrice = 0;
+    if (ExpertDeathKnightClassMountsRequiredLevel < 1) ExpertDeathKnightClassMountsRequiredLevel = 1;
 
     if (debug_Out) 
     {

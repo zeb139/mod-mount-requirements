@@ -1,66 +1,29 @@
- [English](README.md) | [Español](README_ES.md)
-
-# PARTE 1 - Cómo crear su propio módulo
-
-Puede utilizar estos scripts para iniciar su proyecto:
-
-[Ejemplos de scripts](https://github.com/azerothcore/azerothcore-boilerplates)
-
-### ¿Cómo probar su módulo?
-
-Desactivar PCH (cabeceras pre-compiladas) e intentar compilar. Si ha olvidado algunas cabeceras, es hora de añadirlas. Para desactivar PCH, siga este [link](https://github.com/azerothcore/azerothcore-wotlk/wiki/CMake-options) y ponga `USE_COREPCH ` a 0 con Cmake.
-
--------------------------------------------------------
-
-# PARTE 2 - EJEMPLO DE UN README.md
-Recuerde que el README.md le explica al resto de las personas que es lo que hace su módulo. Recomendamos escribirlo en ingles quizás, aunque puede ser traducido luego a otros idiomas.
-
-# MI NUEVO MÓDULO (título)
-
 ## Descripción
+Este módulo proporciona un sistema para personalizar los requisitos de montura en AzerothCore.  
+Te permite realizar de forma segura las siguientes acciones:
 
-Este módulo permite hacer esto y esto.
-(Debe explicar para que se va a utilizar el modulo, cuál es su utilidad)
-
-## Cómo utilizar
-
-Haz esto y aquello.
-
-Puedes agregar una carpeta de pantalla:
-
-[screenshot](/screenshots/my_module.png?raw=true "screenshot")
-
-O incluso un video donde expliques su uso:
-
-[Youtube](https://www.youtube.com/watch?v=T6UEX47mPeE)
-
+* Modificar los costos de entrenamiento de la habilidad de montar y los requisitos de nivel (incluido el Tomo de vuelo en clima frío).
+* Modificar los precios de compra/venta y los requisitos de nivel para las monturas.  
+* Volver fácilmente a los valores predeterminados.
+* Configuración independiente para las monturas de las clases paladín, brujo, druida y caballero de la Muerte.
 
 ## Requisitos
-
-Se debe especificar que versión de azerothcore requiere, porque podría ser incompatible con alguna más adelante. Entonces aclarar por las dudas su compatibilidad no está de más.
-
-Mi nuevo módulo requiere:
-
-- AzerothCore v4.0.0+
-
+Se recomienda una versión reciente de AzerothCore. Este módulo utiliza identificadores de objetos y hechizos codificados de forma fija  
+que espera encontrar en las tablas `acore_world.item_template` y `acore_world.npc_trainer`.
 
 ## Instalación
+1. Descarga mod-mount-requirements en el directorio `modules` de tu fuente AzerothCore. 
+2. Copia el archivo `mod_mount_requirements.conf.dist` de la carpeta `conf` en la carpeta de configuración del módulo de tu fuente AzerothCore. (`../path/to/azerothcore-wotlk/env/dist/etc/modules`). **Cambie el nombre del archivo** a `mod_mount_requirements.conf` (elimine la extensión `.dist`).
+3. Vuelva a ejecutar cmake e inicie una compilación limpia de AzerothCore. En Linux, puede ejecutar `../path/to/azerothcore-wotlk/acore.sh compiler build` . (Consulte la documentación oficial de AzerothCore para obtener más información: https://www.azerothcore.org/wiki/installing-a-module).
 
-```
-1) Simplemente coloque el módulo dentro del directorio `modules` de AzerothCore (repositorio), no la compilación.
-2) Importe el SQL manualmente a la base de datos correcta (auth, mundo o caracteres) o con el `db_assembler.sh` (si se proporciona `include.sh`).
-3) Vuelva a ejecutar el Cmake y genere la compilación necesaria. (Revise la guía)
-```
+## Uso
+**Nota: Todos los usuarios de tu servidor deberán eliminar la carpeta «Cache» de su juego entre cada actualización del archivo .conf.** Si no lo hacen, los jugadores verán datos antiguos en las descripciones emergentes y es posible que no puedan «aprender» nuevas monturas, incluso si cumplen los requisitos que hayas configurado. Esto se debe a que el cliente del juego utiliza la información almacenada en caché para algunas de sus comprobaciones internas.  
 
-## Editar la configuración del módulo (opcional)
+1. Detén tu servidor si ya está en funcionamiento.  
+2. Configura el archivo `mod_mount_requirements.conf` según sea necesario.  
+3. Asegúrate de que Wow.exe no se esté ejecutando y, a continuación, elimina la carpeta `Cache` del mismo directorio que Wow.exe (esta se vuelve a crear cada vez que se ejecuta el juego).  
+4. Inicia el servidor e inicia sesión.  
 
-Si necesita cambiar la configuración del módulo, vaya a la carpeta de configuración de su servidor (donde está su `worldserver` o `worldserver.exe`), copie `my_module.conf.dist` a `my_module.conf` y edite ese nuevo archivo.
-
-
-## Créditos
-
-* [Yo](https://github.com/YOUR_GITHUB_NAME) (autor del módulo) Edite el enlace para que apunte a su github si lo desea.
-* [BarbzYHOOL](https://github.com/barbzyhool) <!-- Puedes eliminar estas líneas, pero al crear un nuevo modulo, es notificado a estas personas, por lo que está bueno que eso ocurra. -->
-* [Talamortis](https://github.com/talamortis)<!-- Puedes eliminar estas líneas, pero al crear un nuevo modulo, es notificado a estas personas, por lo que está bueno que eso ocurra. -->
-
-AzerothCore: [repository](https://github.com/azerothcore) - [website](http://azerothcore.org/) - [discord chat community](https://discord.gg/PaqQRkd)
+### Para revertir los cambios realizados por el módulo  
+1. Siga los mismos pasos que arriba, pero primero establezca `MountRequirements.Enable = false` en su archivo `mod_mount_requirements.conf`.  
+2. La próxima vez que se ejecute el servidor, se aplicarán todos los requisitos de montaje originales a la base de datos. (*Recuerde eliminar su carpeta `Cache`*)

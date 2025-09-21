@@ -31,9 +31,14 @@ class MountRequirements_PlayerScript : public PlayerScript
 
     void OnPlayerLogin(Player* player) override
     {
-        if (sConfigMgr->GetOption<bool>("MountRequirements.Enable", false))
-        {
+        if (!sConfigMgr->GetOption<bool>("MountRequirements.Enable", true))
+            return;
+        
+        if(sConfigMgr->GetOption<bool>("MountRequirements.LoginMessage.ModuleAnnounce.Enable", true))
             ChatHandler(player->GetSession()).PSendSysMessage("MountRequirements module is enabled.");
+
+        if(sConfigMgr->GetOption<bool>("MountRequirements.LoginMessage.CacheReminder.Enable", true))
+        {
             std::string msg = "Note: If you see outdated tooltip data for mounts, " 
                 "or can't use them despite meeting level requirements, please delete your game's Cache folder.";
             ChatHandler(player->GetSession()).PSendSysMessage(msg);

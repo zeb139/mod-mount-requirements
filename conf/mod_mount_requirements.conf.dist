@@ -9,12 +9,23 @@
 #       Description: Enables the module. If disabled, original values are restored.
 #       Default:     true  - Enabled
 #
+#   MountRequirements.LoginMessage.ModuleAnnounce.Enable
+#       Description: Enables a login message announcing that the module is enabled. 
+#       Default:     true
+#
+#   MountRequirements.LoginMessage.CacheReminder.Enable
+#       Description: Enables a login message to players reminding them to 
+#                    delete the game's Cache folder.
+#       Default:     true
+#
 #   MountRequirements.DEBUG
-#       Description: Enables additional logging for debugging purposes
+#       Description: Enables additional logging for debugging purposes.
 #       Default:     false - Disabled
 ###############################################################################
 
 MountRequirements.Enable = true
+MountRequirements.LoginMessage.ModuleAnnounce.Enable = true
+MountRequirements.LoginMessage.CacheReminder.Enable  = true
 MountRequirements.DEBUG  = false
 
 ###############################################################################
