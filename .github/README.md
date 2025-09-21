@@ -34,12 +34,11 @@ that it expects to find within the `acore_world.item_template` and `acore_world.
 1. Follow the same steps as above, but set `MountRequirements.Enable = false` in your `mod_mount_requirements.conf` file first.  
 2. The next time the server runs, all the original mount requirements will be applied to the database. (*Remember to delete your `Cache` folder*)
   
-  
-<img src=".github/images/custom_riding_skill_reqs.png" width="400" alt="Image of custom Riding Skill requirements">   
+![Image of custom Riding Skill requirements](/.github/images/custom_riding_skill_reqs.png)  
 
-<img src=".github/images/custom_racial_mounts_reqs.png" width="400" alt="Image of custom Riding Skill requirements">   
+![Image of custom Riding Skill requirements](/.github/images/custom_racial_mounts_reqs.png)  
 
-<img src=".github/images/custom_class_mounts_reqs.png" width="400" alt="Image of custom Riding Skill requirements">   
+![Image of custom Riding Skill requirements](/.github/images/custom_class_mounts_reqs.png)
 
 ## License
 This module is released under the MIT License
