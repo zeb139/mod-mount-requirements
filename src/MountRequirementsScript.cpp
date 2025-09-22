@@ -35,13 +35,13 @@ class MountRequirements_PlayerScript : public PlayerScript
             return;
         
         if(sConfigMgr->GetOption<bool>("MountRequirements.LoginMessage.ModuleAnnounce.Enable", true))
-            ChatHandler(player->GetSession()).PSendSysMessage("MountRequirements module is enabled.");
+            ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Mount Requirements |rmodule.");
 
         if(sConfigMgr->GetOption<bool>("MountRequirements.LoginMessage.CacheReminder.Enable", true))
         {
-            std::string msg = "Note: If you see outdated tooltip data for mounts, " 
-                "or can't use them despite meeting level requirements, please delete your game's Cache folder.";
-            ChatHandler(player->GetSession()).PSendSysMessage(msg);
+            std::string msg = "|cff00ccffNote: If you see outdated tooltip data for mounts, " 
+                "or can't use them despite meeting level requirements, please delete your game's Cache folder.|r";
+            ChatHandler(player->GetSession()).SendSysMessage(msg);
         }
     }
 };
