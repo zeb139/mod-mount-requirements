@@ -13,7 +13,7 @@ const uint32 JOURNEYMAN_RIDING_SKILL_RANK = 150;
 const uint32 EXPERT_RIDING_SKILL_RANK     = 225;
 const uint32 ARTISAN_RIDING_SKILL_RANK    = 300;
 
-struct MountBackup
+struct MountInfo
 {
     uint32 ItemID;
     uint32 BuyPrice;
@@ -22,24 +22,25 @@ struct MountBackup
     uint32 RequiredSkill;
     uint32 RequiredSkillRank;
 
-    MountBackup() 
+    MountInfo() 
         : ItemID(0), BuyPrice(0), SellPrice(0),
           RequiredLevel(0), RequiredSkill(0), RequiredSkillRank(0) {}
 
-    MountBackup(uint32 id, uint32 buy, uint32 sell, uint32 level, uint32 skill, uint32 skillRank)
+    MountInfo(uint32 id, uint32 buy, uint32 sell, uint32 level, uint32 skill, uint32 skillRank)
         : ItemID(id), BuyPrice(buy), SellPrice(sell), RequiredLevel(level), RequiredSkill(skill), RequiredSkillRank(skillRank) { }
 
-    static MountBackup fromCSV(const std::string& line)
+    static MountInfo fromCSV(const std::string& line)
     {
         std::vector<std::string> fields;
         std::istringstream stream(line);
         std::string field;
 
-        while (std::getline(stream, field, ',')) {
+        while (std::getline(stream, field, ',')) 
+        {
             fields.push_back(field);
         }
 
-        return MountBackup(
+        return MountInfo(
             std::stoul(fields[0]),
             std::stoul(fields[1]),
             std::stoul(fields[2]),

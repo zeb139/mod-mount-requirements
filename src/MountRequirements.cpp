@@ -56,7 +56,9 @@ MountRequirements::MountRequirements() :
     ArtisanDruidClassMountsRequiredLevel(71),
     ExpertDeathKnightClassMountsBuyPrice(1000000),
     ExpertDeathKnightClassMountsSellPrice(250000),
-    ExpertDeathKnightClassMountsRequiredLevel(70)
+    ExpertDeathKnightClassMountsRequiredLevel(70),
+
+    MountsOverrides("")
 {
 }
 
@@ -105,7 +107,7 @@ void MountRequirements::ApplyCustomMountRequirements()
     trans->Append(BuildItemUpdateQuery(ExpertDeathKnightClassMountsIDs, ExpertDeathKnightClassMountsBuyPrice, ExpertDeathKnightClassMountsSellPrice, ExpertDeathKnightClassMountsRequiredLevel));
 
     // Set Requirements for Misc Mounts
-    for (MountBackup m : MiscMountsData) 
+    for (MountInfo m : MiscMountsData) 
     {
         AppendMiscMountUpdate(trans, m,
             ApprenticeRacialMountsBuyPrice, ApprenticeRacialMountsSellPrice, ApprenticeRacialMountsRequiredLevel,
@@ -114,6 +116,10 @@ void MountRequirements::ApplyCustomMountRequirements()
             ArtisanFactionMountsBuyPrice,   ArtisanFactionMountsSellPrice,   ArtisanFactionMountsRequiredLevel
         );
     }
+
+    // Set Requirements for Custom Overrides
+    if (!MountsOverrides.empty())
+        AppendMountsOverrides(trans);
 
     try 
     {
@@ -129,6 +135,84 @@ void MountRequirements::ApplyCustomMountRequirements()
         LOG_INFO("module", "MountRequirements: MountRequirements Update Done");
 }
 
+void MountRequirements::AppendMountsOverrides(WorldDatabaseTransaction t)
+{
+    std::unordered_map<uint32, MountInfo> overriddenMounts = ParseMountsOverrides();
+    for (auto it : overriddenMounts)
+        t->Append(BuildItemUpdateQuery(it.second.ItemID, it.second.BuyPrice, it.second.SellPrice, it.second.RequiredLevel));
+}
+
+std::unordered_map<uint32, MountInfo> MountRequirements::ParseMountsOverrides()
+{
+    // Parse MountsOverrides String data
+    std::unordered_map<uint32, MountInfo> overrides;
+    std::stringstream ss(MountsOverrides);
+    std::string overriddenMount;
+    std::ostringstream overriddenMountItemIDs;
+    bool first = true;
+
+    while (std::getline(ss, overriddenMount, ','))
+    {
+        if (overriddenMount.empty())
+            continue;
+
+        std::stringstream fieldStream(overriddenMount);
+        std::vector<std::string> fields;
+        std::string field;
+
+        if (overriddenMount.find(":") != std::string::npos)
+        {
+            while (std::getline(fieldStream, field, ':'))
+            {
+                fields.push_back(field);
+            }
+
+            if (fields.size() != 4) 
+            {
+                LOG_INFO("module", "MountRequirements: Invalid mount override format {}", overriddenMount);
+                continue;
+            }
+
+            MountInfo m;
+            m.ItemID        = std::stoul(fields[0]);
+            m.BuyPrice      = std::stoul(fields[1]);
+            m.SellPrice     = std::stoul(fields[2]);
+            m.RequiredLevel = std::stoul(fields[3]);
+
+            overrides[m.ItemID] = m;
+
+            if (!first)
+                overriddenMountItemIDs << ',';
+            overriddenMountItemIDs << m.ItemID;
+            first = false;
+        }
+    }
+
+    // Remove entries that are not mounts
+    QueryResult result = WorldDatabase.Query("SELECT `entry`, `class`, `subclass`, `name` FROM `item_template` WHERE entry IN ({})", overriddenMountItemIDs.str());
+    if (!result || result->GetRowCount() == 0)
+    {
+        LOG_INFO("module", "MountRequirements: Something went wrong while comparing MountRequirements.OverrideMounts to item_template database. Skipping overrides.");
+        std::unordered_map<uint32, MountInfo> emptyMap;
+        return emptyMap;
+    }
+    do
+    {
+        Field* fields = result->Fetch();
+        uint32 entry    = fields[0].Get<uint32>();
+        uint32 itemClass    = fields[1].Get<uint32>();
+        uint32 itemSubclass = fields[2].Get<uint32>();
+        std::string itemName    = fields[3].Get<std::string>();
+        
+        if (itemClass != 15 || itemSubclass != 5)
+        {
+            LOG_INFO("module", "MountRequirements: Did not override values for {}, entry: {}. It is not a mount.", itemName, entry);
+            overrides.erase(entry);
+        }
+    } while (result->NextRow());
+
+    return overrides;
+}
 
 void MountRequirements::RestoreOriginalMountRequirements()
 {
@@ -160,7 +244,7 @@ void MountRequirements::RestoreOriginalMountRequirements()
     trans->Append(BuildItemUpdateQuery(ExpertDeathKnightClassMountsIDs, OriginalExpertDeathKnightClassMountsBuyPrice, OriginalExpertDeathKnightClassMountsSellPrice, OriginalExpertDeathKnightClassMountsRequiredLevel));
 
     // Restore Original Requirements for Misc Mounts
-    for (MountBackup m : MiscMountsData)
+    for (MountInfo m : MiscMountsData)
         trans->Append(BuildItemUpdateQuery(m.ItemID, m.BuyPrice, m.SellPrice, m.RequiredLevel));
 
     try
@@ -179,7 +263,7 @@ void MountRequirements::RestoreOriginalMountRequirements()
 
 
 void MountRequirements::AppendMiscMountUpdate(
-        WorldDatabaseTransaction t, const MountBackup m,
+        WorldDatabaseTransaction t, const MountInfo m,
         const uint32 apprMountBuyPrice, const uint32 apprMountSellPrice, const uint32 apprMountReqLevel,
         const uint32 jourMountBuyPrice, const uint32 jourMountSellPrice, const uint32 jourMountReqLevel,
         const uint32 exprMountBuyPrice, const uint32 exprMountSellPrice, const uint32 exprMountReqLevel,
@@ -282,6 +366,9 @@ void MountRequirements::InitializeConfiguration()
     TomeOfColdWeatherFlightSellPrice = sConfigMgr->GetOption<uint32>("MountRequirements.Riding.TomeOfColdWeatherFlight.SellPrice", 0);
     TomeOfColdWeatherFlightRequiredLevel = sConfigMgr->GetOption<uint32>("MountRequirements.Riding.TomeOfColdWeatherFlight.RequiredLevel", 68);
 
+    // Mount Overrides string
+    MountsOverrides = sConfigMgr->GetOption<std::string>("MountRequirements.OverrideMounts", "");
+
     // Skills' requirements can't be invalid
     if (ApprenticeRidingSkillBuyPrice < 0)       ApprenticeRidingSkillBuyPrice = 0;
     if (ApprenticeRidingSkillRequiredLevel < 1)  ApprenticeRidingSkillRequiredLevel = 1;
@@ -363,6 +450,8 @@ void MountRequirements::InitializeConfiguration()
         LOG_INFO("module", "MountRequirements: Expert DeathKnight Class Mounts buy price: {}", ExpertDeathKnightClassMountsBuyPrice);
         LOG_INFO("module", "MountRequirements: Expert DeathKnight Class Mounts sell price: {}", ExpertDeathKnightClassMountsSellPrice);
         LOG_INFO("module", "MountRequirements: Expert DeathKnight Class Mounts required level: {}", ExpertDeathKnightClassMountsRequiredLevel);
+        LOG_INFO("module", "---");
+        LOG_INFO("module", "MountRequirements: Loaded the following overrides: {}", MountsOverrides);
     }    
 }
 
@@ -376,13 +465,13 @@ void MountRequirements::LoadMiscMountsData()
         if (mountData.empty())
             continue;
         
-        MiscMountsData.push_back(MountBackup::fromCSV(mountData));
+        MiscMountsData.push_back(MountInfo::fromCSV(mountData));
     }
 
     if (debug_Out)
     {
         LOG_INFO("module", "\nMountRequirements: Loaded the following miscellaneous mounts:");
-        for (MountBackup m : MiscMountsData) 
+        for (MountInfo m : MiscMountsData) 
         {
             LOG_INFO("module", "MountRequirements: ItemID: {}, BuyPrice: {}, SellPrice: {}, RequiredLevel: {}, RequiredSkill: {}, RequiredSkillRank: {}",
             m.ItemID, m.BuyPrice, m.SellPrice, m.RequiredLevel, m.RequiredSkill, m.RequiredSkillRank);

@@ -36,7 +36,6 @@ MountRequirements.DEBUG  = false
 #
 #   MountRequirements.Riding.<SkillLevel>.RequiredLevel
 #       Description: Character level required
-#
 ###############################################################################
 
 MountRequirements.Riding.Apprentice.BuyPrice = 40000
@@ -68,7 +67,6 @@ MountRequirements.Riding.ColdWeatherFlying.RequiredLevel = 77
 #   MountRequirements.Riding.TomeOfColdWeatherFlight.RequiredLevel
 #       Description: Character level required to use the item
 #       Default: 68
-#
 ###############################################################################
 
 MountRequirements.Riding.TomeOfColdWeatherFlight.BuyPrice        = 10000000
@@ -86,7 +84,6 @@ MountRequirements.Riding.TomeOfColdWeatherFlight.RequiredLevel   = 68
 #
 #   MountRequirements.Mount.<Type>.<SkillLevel>.RequiredLevel
 #       Description: Character level required to learn the mount
-#
 ###############################################################################
 
 MountRequirements.Mount.Racial.Apprentice.BuyPrice = 10000
@@ -116,7 +113,6 @@ MountRequirements.Mount.Faction.Artisan.RequiredLevel = 70
 #
 #   MountRequirements.Mount.<Type>.<SkillLevel>.RequiredLevel
 #       Description: Character level required to learn the mount
-#
 ###############################################################################
 
 MountRequirements.Mount.PaladinClass.Apprentice.BuyPrice = 3500
@@ -140,3 +136,234 @@ MountRequirements.Mount.DruidClass.Artisan.RequiredLevel = 71
 MountRequirements.Mount.DeathKnightClass.Expert.BuyPrice = 1000000
 MountRequirements.Mount.DeathKnightClass.Expert.SellPrice = 250000
 MountRequirements.Mount.DeathKnightClass.Expert.RequiredLevel = 70
+
+###############################################################################
+# CUSTOM MOUNT REQUIREMENTS OVERRIDES
+#
+#    MountRequirements.OverrideMounts
+#        Comma separated list of mounts in the format of 
+#        "ItemID:BuyPrice:SellPrice:RequiredLevel" which is an override of 
+#        the default configurations provided above.
+#	 Example: "44234:1000000:500000:55,44235:1000000:500000:55" would modify 
+#       the Traveler's Tundra Mammoth (Alliance version and Horde version) to
+#       have a BuyPrice of 100g, SellPrice of 50g, and require level 55 to learn.
+#    Default: "44234:200000000:0:40,44235:200000000:0:40" this sets the 
+#       Traveler's Tundra Mammoths to it's original values.
+###############################################################################
+
+MountRequirements.OverrideMounts = "44234:200000000:0:40,44235:200000000:0:40"
+
+
+###############################################################################
+# MOUNTS BY ID REFERENCE
+#
+#    Listed below are all the mounts that are not handled explicitly by
+#    the above configurations.
+#    Add them to MountRequirements.OverrideMounts for further customization.
+###############################################################################
+
+# Argent Charger ........................................47179
+# Argent Warhorse .......................................47180
+# Armored Blue Wind Rider ...............................44690
+# Armored Snowy Gryphon .................................44689
+# Ashes of Al'ar ........................................32458
+# Amani War Bear ........................................33809
+# Big Battle Bear .......................................38576
+# Big Battle Bear .......................................49282
+# Big Blizzard Bear .....................................43599
+# Polar Bear Harness ....................................40777
+# Reins of the Armored Brown Bear .......................44225
+# Reins of the Armored Brown Bear .......................44226
+# Reins of the Black Polar Bear .........................43964
+# Reins of the Black War Bear ...........................44224
+# Reins of the Brown Polar Bear .........................43963
+# Reins of the White Polar Bear .........................43962
+# Black Battlestrider ...................................18243
+# Black Battlestrider ...................................29465
+# Black War Steed Bridle ................................18241
+# Black War Steed Bridle ................................29468
+# Brewfest Kodo .........................................37827
+# Brewfest Ram ..........................................33976
+# Great Brewfest Kodo ...................................37828
+# Swift Brewfest Ram ....................................33977
+# Celestial Steed .......................................54811
+# Crusader's Black Warhorse .............................49098
+# Crusader's White Warhorse .............................49096
+# Darnassian Nightsaber .................................45591
+# Deathcharger's Reins ..................................13335
+# Blue Dragonhawk Mount .................................44843
+# Red Dragonhawk Mount ..................................44842
+# Sunreaver Dragonhawk ..................................46814
+# Reins of the Albino Drake .............................44178
+# Reins of the Azure Drake ..............................43952
+# Reins of the Black Drake ..............................43986
+# Reins of the Blue Drake ...............................43953
+# Reins of the Bronze Drake .............................43951
+# Reins of the Onyxian Drake ............................49636
+# Reins of the Red Drake ................................43955
+# Reins of the Twilight Drake ...........................43954
+# Exodar Elekk ..........................................45590
+# Great Red Elekk .......................................46756
+# Great Red Elekk .......................................46745
+# Reins of the Black War Elekk ..........................35906
+# Fiery Warhorse's Reins ................................30480
+# Fluorescent Green Mechanostrider ......................13325
+# Flying Broom ..........................................33176
+# Flying Carpet .........................................44554
+# Flying Machine Control ................................34060
+# Forsaken Warhorse .....................................45597
+# Frosty Flying Carpet ..................................54797
+# Brutal Nether Drake ...................................43516
+# Deadly Gladiator's Frost Wyrm .........................46708
+# Furious Gladiator's Frost Wyrm ........................46171
+# Merciless Nether Drake ................................34092
+# Reins of the Bloodbathed Frostbrood Vanquisher ........51954
+# Reins of the Icebound Frostbrood Vanquisher ...........51955
+# Relentless Gladiator's Frost Wyrm .....................47840
+# Vengeful Nether Drake .................................37676
+# Wrathful Gladiator's Frost Wyrm .......................50435
+# Gnomeregan Mechanostrider .............................45589
+# Silvermoon Hawkstrider ................................45596
+# Sunreaver Hawkstrider .................................46816
+# Swift Red Hawkstrider .................................46761
+# Swift Red Hawkstrider .................................46751
+# Swift White Hawkstrider ...............................35513
+# Argent Hippogryph .....................................45725
+# Blazing Hippogryph ....................................54069
+# Cenarion War Hippogryph ...............................33999
+# Silver Covenant Hippogryph ............................46813
+# Invincible's Reins ....................................50818
+# Black War Kodo ........................................18247
+# Black War Kodo ........................................29466
+# Great Golden Kodo .....................................46750
+# Great Golden Kodo .....................................46755
+# Thunder Bluff Kodo ....................................45592
+# Loaned Gryphon Reins ..................................44221
+# Loaned Wind Rider Reins ...............................44229
+# Magic Broom ...........................................37011
+# Magic Rooster Egg .....................................46778
+# Magic Rooster Egg .....................................49290
+# Magnificent Flying Carpet .............................44558
+# Reins of the Black War Mammoth ........................43956
+# Reins of the Black War Mammoth ........................44077
+# Reins of the Grand Black War Mammoth ..................43959
+# Reins of the Grand Black War Mammoth ..................44083
+# Reins of the Grand Ice Mammoth ........................43961
+# Reins of the Grand Ice Mammoth ........................44086
+# Reins of the Ice Mammoth ..............................43958
+# Reins of the Ice Mammoth ..............................44080
+# Reins of the Traveler's Tundra Mammoth ................44235
+# Reins of the Traveler's Tundra Mammoth ................44234
+# Reins of the Wooly Mammoth ............................44230
+# Reins of the Wooly Mammoth ............................44231
+# Mechano-hog ...........................................41508
+# Mekgineer's Chopper ...................................44413
+# Mimiron's Head ........................................45693
+# Swift Nether Drake ....................................30609
+# Blue Riding Nether Ray ................................32319
+# Green Riding Nether Ray ...............................32314
+# Purple Riding Nether Ray ..............................32316
+# Red Riding Nether Ray .................................32317
+# Silver Riding Nether Ray ..............................32318
+# Reins of the Azure Netherwing Drake ...................32858
+# Reins of the Cobalt Netherwing Drake ..................32859
+# Reins of the Onyx Netherwing Drake ....................32857
+# Reins of the Purple Netherwing Drake ..................32860
+# Reins of the Veridian Netherwing Drake ................32861
+# Reins of the Violet Netherwing Drake ..................32862
+# Old Magic Broom .......................................33183
+# Reins of the Black Proto-Drake ........................44164
+# Reins of the Blue Proto-Drake .........................44151
+# Reins of the Green Proto-Drake ........................44707
+# Reins of the Ironbound Proto-Drake ....................45801
+# Reins of the Plagued Proto-Drake ......................44175
+# Reins of the Red Proto-Drake ..........................44160
+# Reins of the Rusted Proto-Drake .......................45802
+# Reins of the Time-Lost Proto-Drake ....................44168
+# Reins of the Violet Proto-Drake .......................44177
+# Black Qiraji Resonating Crystal .......................21176
+# Blue Qiraji Resonating Crystal ........................21218
+# Green Qiraji Resonating Crystal .......................21323
+# Red Qiraji Resonating Crystal .........................21321
+# Yellow Qiraji Resonating Crystal ......................21324
+# Quel'dorei Steed ......................................46815
+# Black War Ram .........................................18244
+# Black War Ram .........................................29467
+# Ironforge Ram .........................................45586
+# Swift Violet Ram ......................................46748
+# Swift Violet Ram ......................................46762
+# Darkspear Raptor ......................................45593
+# Swift Purple Raptor ...................................46743
+# Swift Purple Raptor ...................................46760
+# Swift Razzashi Raptor .................................19872
+# Whistle of the Black War Raptor .......................18246
+# Whistle of the Black War Raptor .......................29472
+# Reins of the Crimson Deathcharger .....................52200
+# Reins of the Raven Lord ...............................32768
+# Reins of the Winterspring Frostsaber ..................13086
+# Big Love Rocket .......................................50250
+# X-51 Nether-Rocket ....................................49285
+# X-51 Nether-Rocket ....................................35225
+# X-51 Nether-Rocket X-TREME ............................35226
+# X-51 Nether-Rocket X-TREME ............................49286
+# X-53 Touring Rocket ...................................54860
+# Sea Turtle ............................................46109
+# Blue Skeletal Warhorse ................................46101
+# Red Skeletal Warhorse .................................18248
+# Red Skeletal Warhorse .................................29470
+# White Skeletal Warhorse ...............................46764
+# White Skeletal Warhorse ...............................46746
+# Stormpike Battle Charger ..............................19030
+# Stormwind Steed .......................................45125
+# Swift Ebonweave Carpet ................................44557
+# Swift Flying Broom ....................................33182
+# Swift Flying Carpet ...................................39303
+# Swift Gray Steed ......................................46758
+# Swift Gray Steed ......................................46752
+# Swift Magic Broom .....................................33184
+# Swift Mooncloth Carpet ................................44555
+# Swift Moonsaber .......................................46744
+# Swift Moonsaber .......................................46759
+# Swift Spellfire Carpet ................................44556
+# Swift Warstrider ......................................34129
+# Swift Zhevra ..........................................37719
+# Swift Zhevra OLD ......................................37598
+# Reins of the Cobalt Riding Talbuk .....................31829
+# Reins of the Cobalt Riding Talbuk .....................31830
+# Reins of the Cobalt War Talbuk ........................29102
+# Reins of the Cobalt War Talbuk ........................29227
+# Reins of the Dark Riding Talbuk .......................28915
+# Reins of the Dark War Talbuk ..........................29228
+# Reins of the Silver Riding Talbuk .....................31831
+# Reins of the Silver Riding Talbuk .....................31832
+# Reins of the Silver War Talbuk ........................29104
+# Reins of the Silver War Talbuk ........................29229
+# Reins of the Tan Riding Talbuk ........................31833
+# Reins of the Tan Riding Talbuk ........................31834
+# Reins of the Tan War Talbuk ...........................29105
+# Reins of the Tan War Talbuk ...........................29230
+# Reins of the White Riding Talbuk ......................31835
+# Reins of the White Riding Talbuk ......................31836
+# Reins of the White War Talbuk .........................29103
+# Reins of the White War Talbuk .........................29231
+# The Horseman's Reins ..................................37012
+# Reins of the Black War Tiger ..........................18242
+# Reins of the Black War Tiger ..........................29471
+# Reins of the Spectral Tiger ...........................33224
+# Reins of the Spectral Tiger ...........................49283
+# Reins of the Swift Spectral Tiger .....................49284
+# Reins of the Swift Spectral Tiger .....................33225
+# Swift Zulian Tiger ....................................19902
+# Turbo-Charged Flying Machine Control ..................34061
+# Turbostrider ..........................................46747
+# Turbostrider ..........................................46763
+# Winged Steed of the Ebon Blade ........................40775
+# Horn of the Black War Wolf ............................18245
+# Horn of the Black War Wolf ............................29469
+# Horn of the Frostwolf Howler ..........................19029
+# Orgrimmar Wolf ........................................45595
+# Swift Burgundy Wolf ...................................46757
+# Swift Burgundy Wolf ...................................46749
+# Wooly White Rhino .....................................54068
+# zzoldSwift Warstrider .................................29225
+# [PH] Reins of the Black Warp Stalker ..................38265
