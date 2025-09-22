@@ -12,6 +12,7 @@ Te permite realizar de forma segura las siguientes acciones:
 * Modificar los precios de compra/venta y los requisitos de nivel para las monturas.  
 * Volver fácilmente a los valores predeterminados.
 * Configuración independiente para las monturas de las clases paladín, brujo, druida y caballero de la Muerte.
+* Configuración modificable e independiente por cada montaje.
 
 ## Requisitos
 Se recomienda una versión reciente de AzerothCore. Este módulo utiliza identificadores de objetos y hechizos codificados de forma fija  

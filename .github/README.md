@@ -12,6 +12,7 @@ It allows you to safely:
 * Modify Buy/Sell prices and level requirements for mounts.  
 * Roll back to default values easily
 * Separate configuration for Paladin, Warlock, Druid, and Death Knight class mounts available
+* Overridable configuration on a per-mount basis
 
 ## Requirements
 A recent version of AzerothCore is recommended. This module uses hard-coded item and spell IDs  
