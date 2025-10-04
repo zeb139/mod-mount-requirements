@@ -1,79 +1,23 @@
 #include "MountRequirements.h"
 #include "OriginalMountRequirements.h"
-#include "Common.h"
+
 #include "Config.h"
-#include "WorldSession.h"
 #include "DatabaseEnv.h"
-#include "ItemTemplate.h"
-#include "SharedDefines.h"
-#include "SpellMgr.h"
-#include "Chat.h"
+#include "Define.h"
+#include "Log.h"
+#include "QueryResult.h"
+
 #include <sstream>
-
-using namespace std;
-
-MountRequirements::MountRequirements() :
-    debug_Out(false),
-    MountRequirementsEnabled(true),
-    ApprenticeRidingSkillBuyPrice(40000),
-    ApprenticeRidingSkillRequiredLevel(20),
-    JourneymanRidingSkillBuyPrice(500000),
-    JourneymanRidingSkillRequiredLevel(40),
-    ExpertRidingSkillBuyPrice(2500000),
-    ExpertRidingSkillRequiredLevel(60),
-    ArtisanRidingSkillBuyPrice(50000000),
-    ArtisanRidingSkillRequiredLevel(70),
-    ColdWeatherFlyingSkillBuyPrice(10000000),
-    ColdWeatherFlyingSkillRequiredLevel(77),
-    TomeOfColdWeatherFlightBuyPrice(10000000),
-    TomeOfColdWeatherFlightSellPrice(0),
-    TomeOfColdWeatherFlightRequiredLevel(68),
-
-    ApprenticeRacialMountsBuyPrice(10000),
-    ApprenticeRacialMountsSellPrice(2500),
-    ApprenticeRacialMountsRequiredLevel(20),
-    JourneymanRacialMountsBuyPrice(100000),
-    JourneymanRacialMountsSellPrice(25000),
-    JourneymanRacialMountsRequiredLevel(40),
-    ExpertFactionMountsBuyPrice(500000),
-    ExpertFactionMountsSellPrice(125000),
-    ExpertFactionMountsRequiredLevel(60),
-    ArtisanFactionMountsBuyPrice(1000000),
-    ArtisanFactionMountsSellPrice(250000),
-    ArtisanFactionMountsRequiredLevel(70),
-
-    ApprenticePaladinClassMountsBuyPrice(3500),
-    ApprenticePaladinClassMountsRequiredLevel(20),
-    JourneymanPaladinClassMountsBuyPrice(20000),
-    JourneymanPaladinClassMountsRequiredLevel(40),
-    ApprenticeWarlockClassMountsBuyPrice(10000),
-    ApprenticeWarlockClassMountsRequiredLevel(20),
-    JourneymanWarlockClassMountsBuyPrice(100000),
-    JourneymanWarlockClassMountsRequiredLevel(40),
-    ExpertDruidClassMountsBuyPrice(34000),
-    ExpertDruidClassMountsRequiredLevel(60),
-    ArtisanDruidClassMountsBuyPrice(200000),
-    ArtisanDruidClassMountsRequiredLevel(71),
-    ExpertDeathKnightClassMountsBuyPrice(1000000),
-    ExpertDeathKnightClassMountsSellPrice(250000),
-    ExpertDeathKnightClassMountsRequiredLevel(70),
-
-    MountsOverrides("")
-{
-}
-
-MountRequirements::~MountRequirements() 
-{
-}
+#include <unordered_map>
+#include <vector>
+#include <string>
 
 void MountRequirements::UpdateMountRequirements()
 {
-    if (!MountRequirementsEnabled)
-    {
+    if (MountRequirementsEnabled)
+        ApplyCustomMountRequirements();
+    else
         RestoreOriginalMountRequirements();
-        return;
-    }
-    ApplyCustomMountRequirements();
 }
 
 
@@ -107,9 +51,9 @@ void MountRequirements::ApplyCustomMountRequirements()
     trans->Append(BuildItemUpdateQuery(ExpertDeathKnightClassMountsIDs, ExpertDeathKnightClassMountsBuyPrice, ExpertDeathKnightClassMountsSellPrice, ExpertDeathKnightClassMountsRequiredLevel));
 
     // Set Requirements for Misc Mounts
-    for (MountInfo m : MiscMountsData) 
+    for (MountInfo mI : MiscMountsData) 
     {
-        AppendMiscMountUpdate(trans, m,
+        AppendMiscMountUpdate(trans, mI,
             ApprenticeRacialMountsBuyPrice, ApprenticeRacialMountsSellPrice, ApprenticeRacialMountsRequiredLevel,
             JourneymanRacialMountsBuyPrice, JourneymanRacialMountsSellPrice, JourneymanRacialMountsRequiredLevel,
             ExpertFactionMountsBuyPrice,    ExpertFactionMountsSellPrice,    ExpertFactionMountsRequiredLevel,
@@ -119,7 +63,7 @@ void MountRequirements::ApplyCustomMountRequirements()
 
     // Set Requirements for Custom Overrides
     if (!MountsOverrides.empty())
-        AppendMountsOverrides(trans);
+        AppendCustomMountsOverrides(trans);
 
     try 
     {
@@ -135,14 +79,14 @@ void MountRequirements::ApplyCustomMountRequirements()
         LOG_INFO("module", "MountRequirements: MountRequirements Update Done");
 }
 
-void MountRequirements::AppendMountsOverrides(WorldDatabaseTransaction t)
+void MountRequirements::AppendCustomMountsOverrides(WorldDatabaseTransaction t)
 {
-    std::unordered_map<uint32, MountInfo> overriddenMounts = ParseMountsOverrides();
+    std::unordered_map<uint32, MountInfo> overriddenMounts = GetOverridenMountsInfo();
     for (auto it : overriddenMounts)
         t->Append(BuildItemUpdateQuery(it.second.ItemID, it.second.BuyPrice, it.second.SellPrice, it.second.RequiredLevel));
 }
 
-std::unordered_map<uint32, MountInfo> MountRequirements::ParseMountsOverrides()
+std::unordered_map<uint32, MountInfo> MountRequirements::GetOverridenMountsInfo()
 {
     // Parse MountsOverrides String data
     std::unordered_map<uint32, MountInfo> overrides;
@@ -173,17 +117,17 @@ std::unordered_map<uint32, MountInfo> MountRequirements::ParseMountsOverrides()
                 continue;
             }
 
-            MountInfo m;
-            m.ItemID        = std::stoul(fields[0]);
-            m.BuyPrice      = std::stoul(fields[1]);
-            m.SellPrice     = std::stoul(fields[2]);
-            m.RequiredLevel = std::stoul(fields[3]);
+            MountInfo mI;
+            mI.ItemID        = std::stoul(fields[0]);
+            mI.BuyPrice      = std::stoul(fields[1]);
+            mI.SellPrice     = std::stoul(fields[2]);
+            mI.RequiredLevel = std::stoul(fields[3]);
 
-            overrides[m.ItemID] = m;
+            overrides[mI.ItemID] = mI;
 
             if (!first)
                 overriddenMountItemIDs << ',';
-            overriddenMountItemIDs << m.ItemID;
+            overriddenMountItemIDs << mI.ItemID;
             first = false;
         }
     }
@@ -199,10 +143,10 @@ std::unordered_map<uint32, MountInfo> MountRequirements::ParseMountsOverrides()
     do
     {
         Field* fields = result->Fetch();
-        uint32 entry    = fields[0].Get<uint32>();
-        uint32 itemClass    = fields[1].Get<uint32>();
-        uint32 itemSubclass = fields[2].Get<uint32>();
-        std::string itemName    = fields[3].Get<std::string>();
+        uint32 entry         = fields[0].Get<uint32>();
+        uint32 itemClass     = fields[1].Get<uint32>();
+        uint32 itemSubclass  = fields[2].Get<uint32>();
+        std::string itemName = fields[3].Get<std::string>();
         
         if (itemClass != 15 || itemSubclass != 5)
         {
@@ -244,8 +188,8 @@ void MountRequirements::RestoreOriginalMountRequirements()
     trans->Append(BuildItemUpdateQuery(ExpertDeathKnightClassMountsIDs, OriginalExpertDeathKnightClassMountsBuyPrice, OriginalExpertDeathKnightClassMountsSellPrice, OriginalExpertDeathKnightClassMountsRequiredLevel));
 
     // Restore Original Requirements for Misc Mounts
-    for (MountInfo m : MiscMountsData)
-        trans->Append(BuildItemUpdateQuery(m.ItemID, m.BuyPrice, m.SellPrice, m.RequiredLevel));
+    for (MountInfo mI : MiscMountsData)
+        trans->Append(BuildItemUpdateQuery(mI.ItemID, mI.BuyPrice, mI.SellPrice, mI.RequiredLevel));
 
     try
     {
@@ -314,8 +258,10 @@ void MountRequirements::InitializeConfiguration()
     MountRequirementsEnabled = sConfigMgr->GetOption<bool>("MountRequirements.Enable", true);
     debug_Out = sConfigMgr->GetOption<bool>("MountRequirements.DEBUG", false);
 
+    // LoadMiscMountsData before checking MountRequirementsEnabled so we can revert changes if needed
     LoadMiscMountsData();
 
+    // If module disabled
     if (!MountRequirementsEnabled)
         return;
 
@@ -471,10 +417,10 @@ void MountRequirements::LoadMiscMountsData()
     if (debug_Out)
     {
         LOG_INFO("module", "\nMountRequirements: Loaded the following miscellaneous mounts:");
-        for (MountInfo m : MiscMountsData) 
+        for (MountInfo mI : MiscMountsData) 
         {
             LOG_INFO("module", "MountRequirements: ItemID: {}, BuyPrice: {}, SellPrice: {}, RequiredLevel: {}, RequiredSkill: {}, RequiredSkillRank: {}",
-            m.ItemID, m.BuyPrice, m.SellPrice, m.RequiredLevel, m.RequiredSkill, m.RequiredSkillRank);
+            mI.ItemID, mI.BuyPrice, mI.SellPrice, mI.RequiredLevel, mI.RequiredSkill, mI.RequiredSkillRank);
         }
         LOG_INFO("module", "\n");
     }

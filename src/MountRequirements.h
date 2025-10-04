@@ -2,76 +2,75 @@
 #define MOUNT_REQUIREMENTS_H
 
 #include "OriginalMountRequirements.h"
-#include "Common.h"
-#include "Config.h"
-#include "WorldSession.h"
-#include "DatabaseEnv.h"
-#include "ItemTemplate.h"
-#include "SharedDefines.h"
-#include "SpellMgr.h"
+
+#include "DatabaseEnvFwd.h"
+#include "Define.h"
+
+#include <vector>
+#include <unordered_map>
+#include <string>
 
 class MountRequirements
 {
     private:
-        bool debug_Out;
-        bool MountRequirementsEnabled;
+        bool debug_Out {false};
+        bool MountRequirementsEnabled {true};
 
         // Riding Skills
-        uint32 ApprenticeRidingSkillBuyPrice;
-        uint32 ApprenticeRidingSkillRequiredLevel;
+        uint32 ApprenticeRidingSkillBuyPrice {40000};
+        uint32 ApprenticeRidingSkillRequiredLevel {20};
 
-        uint32 JourneymanRidingSkillBuyPrice;
-        uint32 JourneymanRidingSkillRequiredLevel;
+        uint32 JourneymanRidingSkillBuyPrice {500000};
+        uint32 JourneymanRidingSkillRequiredLevel {40};
 
-        uint32 ExpertRidingSkillBuyPrice;
-        uint32 ExpertRidingSkillRequiredLevel;
+        uint32 ExpertRidingSkillBuyPrice {2500000};
+        uint32 ExpertRidingSkillRequiredLevel {60};
 
-        uint32 ArtisanRidingSkillBuyPrice;
-        uint32 ArtisanRidingSkillRequiredLevel;
+        uint32 ArtisanRidingSkillBuyPrice {50000000};
+        uint32 ArtisanRidingSkillRequiredLevel {70};
 
-        uint32 ColdWeatherFlyingSkillBuyPrice;
-        uint32 ColdWeatherFlyingSkillRequiredLevel;
+        uint32 ColdWeatherFlyingSkillBuyPrice {10000000};
+        uint32 ColdWeatherFlyingSkillRequiredLevel {77};
 
-        uint32 TomeOfColdWeatherFlightBuyPrice;
-        uint32 TomeOfColdWeatherFlightSellPrice;
-        uint32 TomeOfColdWeatherFlightRequiredLevel;
+        uint32 TomeOfColdWeatherFlightBuyPrice {10000000};
+        uint32 TomeOfColdWeatherFlightSellPrice {0};
+        uint32 TomeOfColdWeatherFlightRequiredLevel {68};
 
         // Mounts
-        uint32 ApprenticeRacialMountsBuyPrice;
-        uint32 ApprenticeRacialMountsSellPrice;
-        uint32 ApprenticeRacialMountsRequiredLevel;
+        uint32 ApprenticeRacialMountsBuyPrice {10000};
+        uint32 ApprenticeRacialMountsSellPrice {2500};
+        uint32 ApprenticeRacialMountsRequiredLevel {20};
 
-        uint32 JourneymanRacialMountsBuyPrice;
-        uint32 JourneymanRacialMountsSellPrice;
-        uint32 JourneymanRacialMountsRequiredLevel;
+        uint32 JourneymanRacialMountsBuyPrice {100000};
+        uint32 JourneymanRacialMountsSellPrice {25000};
+        uint32 JourneymanRacialMountsRequiredLevel {40};
 
-        uint32 ExpertFactionMountsBuyPrice;
-        uint32 ExpertFactionMountsSellPrice;
-        uint32 ExpertFactionMountsRequiredLevel;
+        uint32 ExpertFactionMountsBuyPrice {500000};
+        uint32 ExpertFactionMountsSellPrice {125000};
+        uint32 ExpertFactionMountsRequiredLevel {60};
         
-        uint32 ArtisanFactionMountsBuyPrice;
-        uint32 ArtisanFactionMountsSellPrice;
-        uint32 ArtisanFactionMountsRequiredLevel;
+        uint32 ArtisanFactionMountsBuyPrice {1000000};
+        uint32 ArtisanFactionMountsSellPrice {250000};
+        uint32 ArtisanFactionMountsRequiredLevel {70};
 
-        uint32 ApprenticePaladinClassMountsBuyPrice;
-        uint32 ApprenticePaladinClassMountsRequiredLevel;
-        uint32 JourneymanPaladinClassMountsBuyPrice;
-        uint32 JourneymanPaladinClassMountsRequiredLevel;
-        uint32 ApprenticeWarlockClassMountsBuyPrice;
-        uint32 ApprenticeWarlockClassMountsRequiredLevel;
-        uint32 JourneymanWarlockClassMountsBuyPrice;
-        uint32 JourneymanWarlockClassMountsRequiredLevel;
-        uint32 ExpertDruidClassMountsBuyPrice;
-        uint32 ExpertDruidClassMountsRequiredLevel;
-        uint32 ArtisanDruidClassMountsBuyPrice;
-        uint32 ArtisanDruidClassMountsRequiredLevel;
-        uint32 ExpertDeathKnightClassMountsBuyPrice;
-        uint32 ExpertDeathKnightClassMountsSellPrice;
-        uint32 ExpertDeathKnightClassMountsRequiredLevel;
+        uint32 ApprenticePaladinClassMountsBuyPrice {3500};
+        uint32 ApprenticePaladinClassMountsRequiredLevel {20};
+        uint32 JourneymanPaladinClassMountsBuyPrice {20000};
+        uint32 JourneymanPaladinClassMountsRequiredLevel {40};
+        uint32 ApprenticeWarlockClassMountsBuyPrice {10000};
+        uint32 ApprenticeWarlockClassMountsRequiredLevel {20};
+        uint32 JourneymanWarlockClassMountsBuyPrice {100000};
+        uint32 JourneymanWarlockClassMountsRequiredLevel {40};
+        uint32 ExpertDruidClassMountsBuyPrice {34000};
+        uint32 ExpertDruidClassMountsRequiredLevel {60};
+        uint32 ArtisanDruidClassMountsBuyPrice {200000};
+        uint32 ArtisanDruidClassMountsRequiredLevel {71};
+        uint32 ExpertDeathKnightClassMountsBuyPrice {1000000};
+        uint32 ExpertDeathKnightClassMountsSellPrice {250000};
+        uint32 ExpertDeathKnightClassMountsRequiredLevel {70};
         
         std::vector<MountInfo> MiscMountsData;
-        std::string MountsOverrides;
-        MountRequirements();
+        std::string MountsOverrides {""};
 
     public:
         static MountRequirements* instance()
@@ -80,7 +79,6 @@ class MountRequirements
             return &instance;
         }
 
-        ~MountRequirements();
         void InitializeConfiguration();
         void UpdateMountRequirements();
         void LoadMiscMountsData();
@@ -96,11 +94,14 @@ class MountRequirements
             const uint32 exprMountBuyPrice, const uint32 exprMountSellPrice, const uint32 exprMountReqLevel,
             const uint32 artiMountBuyPrice, const uint32 artiMountSellPrice, const uint32 artiMountReqLevel
         );
-        void AppendMountsOverrides(WorldDatabaseTransaction t);
-        std::unordered_map<uint32, MountInfo> ParseMountsOverrides();
+        void AppendCustomMountsOverrides(WorldDatabaseTransaction t);
+        std::unordered_map<uint32, MountInfo> GetOverridenMountsInfo();
         std::string BuildSpellUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 level);
         std::string BuildSpellUpdateQuery(const uint32 id, const uint32 buy, const uint32 level);
         std::string VectorToCSV(const std::vector<uint32>& v);
+
+        MountRequirements() = default;
+        ~MountRequirements() = default;
 };
 
 #define mountRequirements MountRequirements::instance()

@@ -1,7 +1,7 @@
 #ifndef ORIGINAL_MOUNT_REQUIREMENTS_H
 #define ORIGINAL_MOUNT_REQUIREMENTS_H
 
-#include "Common.h"
+#include "Define.h"
 #include <sstream>
 #include <vector>
 
@@ -27,7 +27,8 @@ struct MountInfo
           RequiredLevel(0), RequiredSkill(0), RequiredSkillRank(0) {}
 
     MountInfo(uint32 id, uint32 buy, uint32 sell, uint32 level, uint32 skill, uint32 skillRank)
-        : ItemID(id), BuyPrice(buy), SellPrice(sell), RequiredLevel(level), RequiredSkill(skill), RequiredSkillRank(skillRank) { }
+        : ItemID(id), BuyPrice(buy), SellPrice(sell), 
+          RequiredLevel(level), RequiredSkill(skill), RequiredSkillRank(skillRank) { }
 
     static MountInfo fromCSV(const std::string& line)
     {

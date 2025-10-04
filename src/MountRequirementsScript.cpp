@@ -3,13 +3,8 @@
 */
 
 #include "MountRequirements.h"
-#include "Log.h"
-#include "WorldSession.h"
 #include "ScriptMgr.h"
-#include "Player.h"
 #include "Chat.h"
-#include "Config.h"
-#include "ItemTemplate.h"
 
 class MountRequirements_WorldScript : public WorldScript
 {
