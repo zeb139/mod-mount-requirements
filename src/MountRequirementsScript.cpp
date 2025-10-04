@@ -14,8 +14,8 @@ class MountRequirements_WorldScript : public WorldScript
     void OnAfterConfigLoad(bool /*reload*/) override
     {
         LOG_INFO("server.loading", "\nMountRequirements: Applying MountRequirements Updates...");
-        mountRequirements->InitializeConfiguration();
-        mountRequirements->UpdateMountRequirements();
+        MountRequirements::instance().InitializeConfiguration();
+        MountRequirements::instance().UpdateMountRequirements();
     }
 };
 
@@ -34,8 +34,8 @@ class MountRequirements_PlayerScript : public PlayerScript
 
         if(sConfigMgr->GetOption<bool>("MountRequirements.LoginMessage.CacheReminder.Enable", true))
         {
-            std::string msg = "|cff00ccffNote: If you see outdated tooltip data for mounts, " 
-                "or can't use them despite meeting level requirements, please delete your game's Cache folder.|r";
+            std::string msg = "|cff00ccffNote: If you see outdated tooltip data for mounts, or can't use them " 
+                              "despite meeting level requirements, please delete your game's Cache folder.|r";
             ChatHandler(player->GetSession()).SendSysMessage(msg);
         }
     }

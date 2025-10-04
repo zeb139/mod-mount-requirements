@@ -12,7 +12,44 @@
 
 class MountRequirements
 {
+    public:
+        static MountRequirements& instance()
+        {
+            static MountRequirements instance;
+            return instance;
+        }
+
+        void InitializeConfiguration();
+        void UpdateMountRequirements();
+        void LoadMiscMountsData();
+        void ApplyCustomMountRequirements();
+        void RestoreOriginalMountRequirements();
+
+        std::string BuildItemUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 sell, const uint32 level);
+        std::string BuildItemUpdateQuery(const uint32 id, const uint32 buy, const uint32 sell, const uint32 level);
+        void AppendMiscMountUpdate(
+            WorldDatabaseTransaction t, const MountInfo m,
+            const uint32 apprMountBuyPrice, const uint32 apprMountSellPrice, const uint32 apprMountReqLevel,
+            const uint32 jourMountBuyPrice, const uint32 jourMountSellPrice, const uint32 jourMountReqLevel,
+            const uint32 exprMountBuyPrice, const uint32 exprMountSellPrice, const uint32 exprMountReqLevel,
+            const uint32 artiMountBuyPrice, const uint32 artiMountSellPrice, const uint32 artiMountReqLevel
+        );
+        void AppendCustomMountsOverrides(WorldDatabaseTransaction t);
+        std::unordered_map<uint32, MountInfo> GetOverridenMountsInfo();
+        std::string BuildSpellUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 level);
+        std::string BuildSpellUpdateQuery(const uint32 id, const uint32 buy, const uint32 level);
+        std::string VectorToCSV(const std::vector<uint32>& v);
+
     private:
+        MountRequirements() = default;
+        ~MountRequirements() = default;
+
+        // Delete copy/move semantics to enforce one instance
+        MountRequirements(const MountRequirements&) = delete;
+        MountRequirements& operator=(const MountRequirements&) = delete;
+        MountRequirements(MountRequirements&&) = delete;
+        MountRequirements& operator=(MountRequirements&&) = delete;
+
         bool debug_Out {false};
         bool MountRequirementsEnabled {true};
 
@@ -70,39 +107,7 @@ class MountRequirements
         uint32 ExpertDeathKnightClassMountsRequiredLevel {70};
         
         std::vector<MountInfo> MiscMountsData;
-        std::string MountsOverrides {""};
-
-    public:
-        static MountRequirements* instance()
-        {
-            static MountRequirements instance;
-            return &instance;
-        }
-
-        void InitializeConfiguration();
-        void UpdateMountRequirements();
-        void LoadMiscMountsData();
-        void ApplyCustomMountRequirements();
-        void RestoreOriginalMountRequirements();
-
-        std::string BuildItemUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 sell, const uint32 level);
-        std::string BuildItemUpdateQuery(const uint32 id, const uint32 buy, const uint32 sell, const uint32 level);
-        void AppendMiscMountUpdate(
-            WorldDatabaseTransaction t, const MountInfo m,
-            const uint32 apprMountBuyPrice, const uint32 apprMountSellPrice, const uint32 apprMountReqLevel,
-            const uint32 jourMountBuyPrice, const uint32 jourMountSellPrice, const uint32 jourMountReqLevel,
-            const uint32 exprMountBuyPrice, const uint32 exprMountSellPrice, const uint32 exprMountReqLevel,
-            const uint32 artiMountBuyPrice, const uint32 artiMountSellPrice, const uint32 artiMountReqLevel
-        );
-        void AppendCustomMountsOverrides(WorldDatabaseTransaction t);
-        std::unordered_map<uint32, MountInfo> GetOverridenMountsInfo();
-        std::string BuildSpellUpdateQuery(const std::vector<uint32> ids, const uint32 buy, const uint32 level);
-        std::string BuildSpellUpdateQuery(const uint32 id, const uint32 buy, const uint32 level);
-        std::string VectorToCSV(const std::vector<uint32>& v);
-
-        MountRequirements() = default;
-        ~MountRequirements() = default;
+        std::string MountsOverrides;
 };
 
-#define mountRequirements MountRequirements::instance()
 #endif
